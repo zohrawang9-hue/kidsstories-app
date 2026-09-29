@@ -1,0 +1,44 @@
+# Codemagic 云打包配置 —— 圣人故事儿童集 iOS
+# 流程：拉代码 → npm install → Capacitor 同步 iOS → 自动签名 → 打 IPA 包 → 上传 TestFlight
+# 前置条件（在 Codemagic 网页上做一次）：
+#  1. 用 GitHub 登录后 Add application，选中 zohrawang9-hue/kidsstories-app
+#  2. App Store Connect → Users and Access → Integrations → App Store Connect API → Team Keys
+#     生成一把 App Manager 角色的 Key，记下 Issuer ID、Key ID，并下载 .p8 文件（只可下载一次）
+#  3. 在 Codemagic 的 App settings → Integrations → App Store Connect API access 里填入上面的 Key
+#  4. 在 developer.apple.com 注册 App ID：ca.zohra.studio.kidsstories（Explicit）
+#  5. 在 App Store Connect 建 App 记录（My Apps → + → New App），Bundle ID 选上面的
+workflows:
+  ios-testflight:
+    name: iOS TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      node: 20
+      xcode: latest
+      cocoapods: default
+      vars:
+        BUNDLE_ID: ca.zohra.studio.kidsstories
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm install
+      - name: Sync Capacitor iOS project
+        script: |
+          npx cap sync ios
+      - name: Fetch signing files
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+      - name: Set up code signing settings
+        script: |
+          xcode-project use-profiles
+      - name: Build IPA for distribution
+        script: |
+          xcode-project build-ipa --workspace ios/App/App.xcworkspace --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
