@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#0e5b43" />
+  <link rel="icon" href="data:," />
+  <title>圣人故事儿童集</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@600&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&display=swap');
+    :root {
+      color-scheme: light dark;
+      --ink: #173f37;
+      --muted: #5c746b;
+      --paper: #f6fbf4;
+      --paper-2: #e7f2e3;
+      --surface: #ffffff;
+      --surface-strong: #fbfef9;
+      --night: #0e5b43;
+      --night-2: #137357;
+      --gold: #d9a638;
+      --gold-soft: #f4d889;
+      --sage: #247f5f;
+      --coral: #d87858;
+      --sky: #4d9a81;
+      --line: rgba(25, 70, 55, .14);
+      --shadow: 0 18px 55px rgba(24, 67, 51, .16);
+      --overlay: rgba(4, 22, 16, .78);
+      --danger: #9a3e34;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #f6f1df;
+        --muted: #bbcbc3;
+        --paper: #071b14;
+        --paper-2: #102d22;
+        --surface: #123426;
+        --surface-strong: #174332;
+        --night: #0a3d2d;
+        --night-2: #176d51;
+        --gold: #efc768;
+        --gold-soft: #f4d889;
+        --sage: #83c8a8;
+        --coral: #ef9b7c;
+        --sky: #74b99e;
+        --line: rgba(235, 238, 219, .15);
+        --shadow: 0 20px 55px rgba(0, 0, 0, .38);
+        --overlay: rgba(0, 8, 5, .89);
+        --danger: #ffafa3;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 280px;
+      min-height: 100vh;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(30deg, color-mix(in srgb, var(--sage) 4%, transparent) 1px, transparent 1px),
+        linear-gradient(150deg, color-mix(in srgb, var(--sage) 4%, transparent) 1px, transparent 1px);
+      background-size: 54px 94px;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, video { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .shell { min-height: 100vh; }
+    .topbar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: max(14px, env(safe-area-inset-top)) clamp(18px, 4vw, 48px) 14px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--paper) 90%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .brandline { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .crescent {
+      position:relative; width:27px; height:27px; flex:0 0 auto; border-radius:50%;
+      background:var(--night-2); transform:rotate(-13deg);
+    }
+    .crescent::after {
+      content:""; position:absolute; width:23px; height:23px; left:8px; top:-2px;
+      border-radius:50%; background:var(--paper);
+    }
+    .brandline strong { font-family: "Noto Serif SC", serif; font-size: 17px; white-space: nowrap; }
+    .language {
+      display: inline-flex; align-items: center; gap: 7px;
+      border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+      padding: 8px 12px; font-size: 13px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 3px 14px rgba(0,0,0,.04);
+    }
+    .language svg { width: 17px; height: 17px; }
+    main { width: min(1120px, 100%); margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px) 108px; }
+    .view[hidden] { display: none; }
+    .hero {
+      position: relative; overflow: hidden;
+      margin: 24px 0 34px; min-height: 290px;
+      display: grid; grid-template-columns: 1.05fr .95fr; align-items: stretch;
+      color: #fff9e9; background: var(--night); border-radius: 30px 9px 30px 9px;
+      box-shadow: var(--shadow);
+    }
+    .hero::before {
+      content:""; position:absolute; inset:0; pointer-events:none; opacity:.22;
+      background-image:
+        radial-gradient(circle at center, transparent 0 8px, var(--gold-soft) 8.5px 9.5px, transparent 10px),
+        linear-gradient(45deg, transparent 47%, var(--gold-soft) 48% 52%, transparent 53%),
+        linear-gradient(-45deg, transparent 47%, var(--gold-soft) 48% 52%, transparent 53%);
+      background-size:52px 52px, 52px 52px, 52px 52px;
+      background-position:0 0, 26px 26px, 26px 26px;
+      mask-image:linear-gradient(90deg,#000,rgba(0,0,0,.82) 45%,transparent 76%);
+    }
+    .hero-copy { position: relative; z-index: 2; padding: clamp(28px, 5vw, 58px); align-self: center; }
+    .basmala { margin: 0 0 14px; color: var(--gold-soft); font: 600 clamp(24px, 3.4vw, 38px)/1.5 "Noto Naskh Arabic", "Noto Serif", serif; letter-spacing: 0; text-align: left; }
+    .hero h1 { margin: 0 0 16px; max-width: 520px; font: 700 clamp(35px, 5vw, 66px)/1.1 "Noto Serif SC", serif; letter-spacing: -.04em; }
+    .hero p { margin: 0; max-width: 470px; color: #d8e7e3; font-size: clamp(15px, 2vw, 18px); line-height: 1.8; }
+    .hero-art { position: relative; min-height: 270px; overflow: hidden; }
+    .hero-art::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, var(--night) 0%, transparent 48%); }
+    .hero-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; filter: saturate(.82) contrast(.97); }
+    .star { position:absolute; z-index:3; color:var(--gold-soft); font-size:18px; }
+    .star.a { right: 34px; top: 25px; } .star.b { right: 16%; bottom: 26px; font-size: 10px; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:16px; margin: 0 0 18px; }
+    .section-head h2 { margin:0; font:700 clamp(24px, 3vw, 36px)/1.2 "Noto Serif SC",serif; }
+    .section-head p { margin:5px 0 0; color:var(--muted); font-size:14px; }
+    .text-button { border:0; background:none; color:var(--sage); font-weight:700; cursor:pointer; padding:7px 0; }
+    .category-block { margin: 0 0 36px; }
+    .category-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+    .category-btn {
+      display:flex; align-items:center; justify-content:center; gap:9px; min-height:58px;
+      border:1px solid var(--line); border-radius:13px 13px 4px 13px; padding:10px 12px;
+      background:var(--surface); font-weight:700; cursor:pointer; text-align:center;
+    }
+    .category-btn .category-symbol { color:var(--gold); font-family:serif; font-size:20px; }
+    .category-btn:nth-child(1) { background:color-mix(in srgb,var(--sky) 10%,var(--surface)); }
+    .category-btn:nth-child(2) { background:color-mix(in srgb,var(--gold) 11%,var(--surface)); }
+    .category-btn:nth-child(3) { background:color-mix(in srgb,var(--coral) 9%,var(--surface)); }
+    .category-btn:nth-child(4) { background:color-mix(in srgb,var(--sage) 10%,var(--surface)); }
+    .category-btn[aria-selected="true"] { color:#fff8e7; background:var(--night-2); border-color:var(--night-2); box-shadow:0 7px 20px rgba(7,35,45,.16); }
+    .category-btn[aria-selected="true"] .category-symbol { color:var(--gold-soft); }
+    .upcoming { min-height:330px; display:grid; place-items:center; padding:42px 20px; background:var(--surface); border:1px solid var(--line); border-radius:12px 30px 12px 12px; text-align:center; }
+    .upcoming[hidden] { display:none; }
+    .upcoming-mark { width:82px; height:82px; display:grid; place-items:center; margin:0 auto 20px; border-radius:50%; color:var(--gold); background:var(--paper-2); font:700 34px serif; }
+    .upcoming h2 { margin:0 0 10px; font:700 clamp(26px,4vw,40px)/1.2 "Noto Serif SC",serif; }
+    .upcoming p { margin:0; color:var(--muted); line-height:1.7; }
+    .featured { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-bottom:42px; }
+    .feature-card {
+      min-width:0; border:0; padding:0; text-align:left; color:#fff; cursor:pointer;
+      background:var(--night); border-radius:18px 18px 6px 18px; overflow:hidden; position:relative;
+      aspect-ratio: 1.28; box-shadow:0 9px 24px rgba(7,35,45,.18);
+    }
+    .feature-card img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .35s ease; }
+    .feature-card::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 15%, rgba(4,20,27,.88)); }
+    .feature-card:hover img { transform:scale(1.025); }
+    .feature-card .card-copy { position:absolute; z-index:2; left:18px; right:18px; bottom:16px; }
+    .feature-card small { display:block; color:#ead7a5; margin-bottom:4px; font-weight:700; }
+    .feature-card strong { font-family:"Noto Serif SC",serif; font-size:20px; }
+    .library-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .episode-card {
+      display:grid; grid-template-columns:104px 1fr auto; align-items:center; gap:18px;
+      width:100%; padding:10px; border:1px solid var(--line); border-radius:10px 22px 10px 10px;
+      background:var(--surface); text-align:left; cursor:pointer; box-shadow:0 6px 19px rgba(27,48,54,.06);
+    }
+    .episode-card:hover { border-color:color-mix(in srgb,var(--gold) 55%,var(--line)); background:var(--surface-strong); }
+    .episode-card img { width:104px; aspect-ratio:9/12; height:116px; object-fit:cover; object-position:50% 22%; border-radius:6px 15px 6px 6px; }
+    .ep-num { color:var(--gold); font-size:12px; font-weight:700; margin-bottom:5px; }
+    .episode-card h3 { margin:0 0 7px; font:700 19px/1.35 "Noto Serif SC",serif; }
+    .episode-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+    .play-mark { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:var(--paper-2); color:var(--gold); }
+    .play-mark svg { width:14px; margin-left:2px; }
+    .about-wrap { padding-top:40px; display:grid; grid-template-columns:.85fr 1.15fr; gap:28px; align-items:start; }
+    .about-panel { padding:clamp(28px,5vw,58px); background:var(--night); color:#edf5ef; border-radius:30px 8px 30px 8px; min-height:370px; position:relative; overflow:hidden; }
+    .about-panel::after { content:"✦"; position:absolute; right:28px; bottom:18px; color:var(--gold); font-size:72px; opacity:.55; }
+    .about-panel h1 { margin:0 0 16px; font:700 clamp(32px,5vw,56px)/1.16 "Noto Serif SC",serif; }
+    .about-panel p { color:#cfe0db; line-height:1.8; }
+    .about-details { padding:26px 10px; }
+    .about-details h2 { font:700 26px "Noto Serif SC",serif; margin:0 0 14px; }
+    .about-details p { color:var(--muted); line-height:1.85; margin:0 0 24px; }
+    .maker { display:flex; align-items:center; gap:14px; padding-top:22px; border-top:1px solid var(--line); }
+    .maker-seal { width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:var(--gold);color:var(--night);font-family:serif;font-size:24px; }
+    .maker strong { display:block; } .maker span { color:var(--muted); font-size:13px; }
+    .dua-wrap { padding-top:32px; }
+    .dua-intro {
+      display:grid; grid-template-columns:1fr auto; align-items:end; gap:24px;
+      margin-bottom:22px; padding:clamp(24px,4vw,40px);
+      color:#fff; background:var(--night);
+      border-radius:26px 8px 26px 8px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .dua-intro::before {
+      content:""; position:absolute; inset:0; opacity:.13; pointer-events:none;
+      background-image:radial-gradient(circle at center, transparent 0 7px, var(--gold-soft) 8px 9px, transparent 10px);
+      background-size:38px 38px;
+      mask-image:linear-gradient(90deg,transparent 35%,#000);
+    }
+    .dua-intro::after { content:"☾"; position:absolute; right:34px; top:10px; color:var(--gold-soft); font-size:86px; opacity:.28; }
+    .dua-intro h1 { position:relative; z-index:1; margin:0 0 9px; font:700 clamp(30px,5vw,52px)/1.18 "Noto Serif SC",serif; }
+    .dua-intro p { position:relative; z-index:1; margin:0; max-width:670px; color:#ddf2ed; line-height:1.75; }
+    .dua-switch { position:relative; z-index:2; display:inline-flex; gap:5px; padding:5px; background:rgba(255,255,255,.13); border-radius:999px; }
+    .dua-time { min-width:92px; border:0; border-radius:999px; padding:10px 15px; color:#d9efea; background:transparent; font-weight:700; cursor:pointer; }
+    .dua-time[aria-selected="true"] { color:var(--night); background:var(--gold-soft); }
+    .dua-count { margin:0 0 15px; color:var(--muted); font-size:14px; }
+    .dua-list { display:grid; gap:14px; }
+    .dua-card { border:1px solid var(--line); border-radius:10px 24px 10px 10px; background:var(--surface); box-shadow:0 7px 22px rgba(27,48,54,.07); overflow:hidden; }
+    .dua-card:nth-child(3n+1) { border-top:4px solid var(--sky); }
+    .dua-card:nth-child(3n+2) { border-top:4px solid var(--gold); }
+    .dua-card:nth-child(3n) { border-top:4px solid var(--coral); }
+    .dua-card summary { display:grid; grid-template-columns:1fr auto; align-items:center; gap:16px; padding:18px 20px; cursor:pointer; list-style:none; }
+    .dua-card summary::-webkit-details-marker { display:none; }
+    .dua-card summary::after { content:"＋"; color:var(--sage); font-size:22px; font-weight:500; }
+    .dua-card[open] summary::after { content:"−"; }
+    .dua-title { display:block; font:700 20px/1.35 "Noto Serif SC",serif; }
+    .dua-subtitle { display:block; margin-top:4px; color:var(--muted); font-size:13px; }
+    .dua-body { padding:0 20px 22px; border-top:1px solid var(--line); }
+    .listen-row { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 4px; }
+    .listen-btn {
+      display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); border-radius:999px;
+      padding:8px 12px; background:var(--paper-2); color:var(--night-2); font-size:12px; font-weight:700; cursor:pointer;
+    }
+    .listen-btn svg { width:16px; height:16px; flex:0 0 auto; }
+    .listen-btn[aria-pressed="true"] { color:#fff8e7; background:var(--night-2); border-color:var(--night-2); }
+    .dua-arabic { margin:18px 0 22px; color:var(--night-2); font:600 clamp(22px,4vw,30px)/2 "Noto Serif SC",serif; text-align:right; white-space:pre-line; }
+    .dua-translation { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .dua-lang { padding:15px; background:var(--paper); border-radius:9px 18px 9px 9px; }
+    .dua-lang b { display:block; margin-bottom:7px; color:var(--sage); font-size:12px; }
+    .dua-lang p { margin:0; color:var(--ink); line-height:1.72; white-space:pre-line; }
+    .dua-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; }
+    .dua-pill { padding:6px 10px; border-radius:999px; color:var(--ink); background:var(--paper-2); font-size:12px; font-weight:700; }
+    .sunnah-intro::after { content:"✦"; }
+    .sunnah-moment { display:block; margin-top:4px; color:var(--sage); font-size:13px; font-weight:700; }
+    .score-chip { display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:var(--night);color:#fff8e7;font-size:12px;font-weight:800;white-space:nowrap; }
+    .top-actions { display:flex;align-items:center;gap:8px; }
+    .checkin-panel { display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;margin:0 0 18px;padding:18px 20px;border:1px solid var(--line);border-radius:12px 24px 12px 12px;background:var(--surface);box-shadow:0 7px 22px rgba(27,48,54,.07); }
+    .checkin-panel strong { display:block;font:700 19px "Noto Serif SC",serif; }
+    .checkin-panel span { display:block;margin-top:4px;color:var(--muted);font-size:13px;line-height:1.5; }
+    .primary-action,.small-action { border:0;border-radius:999px;background:var(--night-2);color:#fff8e7;font-weight:800;cursor:pointer; }
+    .primary-action { padding:12px 18px; }
+    .small-action { padding:8px 12px;font-size:12px; }
+    .primary-action:disabled,.small-action:disabled { opacity:.58;cursor:default; }
+    .favorite-content-btn { display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--surface);color:var(--sage);font-weight:800;cursor:pointer; }
+    .favorite-content-btn[aria-pressed="true"] { background:color-mix(in srgb,var(--coral) 13%,var(--surface));color:var(--danger); }
+    .play-wrap,.profile-wrap { padding-top:32px; }
+    .learn-tabs { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 18px; }
+    .learn-tab { min-height:52px;border:1px solid var(--line);border-radius:11px 18px 11px 11px;padding:9px;background:var(--surface);font-weight:800;cursor:pointer; }
+    .learn-tab[aria-selected="true"] { background:var(--night-2);border-color:var(--night-2);color:#fff8e7; }
+    .learning-panel[hidden] { display:none; }
+    .module-head { display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 16px; }
+    .module-head h2 { margin:0;font:700 clamp(25px,4vw,36px)/1.2 "Noto Serif SC",serif; }
+    .module-head p { margin:6px 0 0;color:var(--muted);font-size:13px; }
+    .progress-track { width:180px;height:9px;overflow:hidden;border-radius:999px;background:var(--paper-2); }
+    .progress-track span { display:block;height:100%;background:var(--gold); }
+    .name-card { min-height:250px;display:grid;align-content:center;justify-items:center;text-align:center;padding:24px 38px;border:1px solid var(--line);border-radius:14px 34px 14px 14px;background:var(--surface);box-shadow:var(--shadow); }
+    .name-card .arabic-name { color:var(--night-2);font:700 clamp(42px,8vw,72px)/1.3 "Noto Serif SC",serif; }
+    .name-translations { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(520px,100%);margin:12px 0 16px; }
+    .name-translation { margin:0;padding:13px 15px;border-radius:9px 18px 9px 9px;background:var(--paper);color:var(--ink);line-height:1.55; }
+    .name-translation b { display:block;margin-bottom:5px;color:var(--sage);font-size:12px; }
+    .module-controls { display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:16px; }
+    .step-list,.surah-list,.timeline-list { display:grid;gap:12px; }
+    .faith-intro { margin:0 0 16px;padding:22px 24px;border-radius:12px 26px 12px 12px;background:color-mix(in srgb,var(--gold) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line)); }
+    .faith-intro h2 { margin:0 0 8px;font:700 clamp(25px,4vw,36px)/1.2 "Noto Serif SC",serif; }
+    .faith-intro p { margin:0;color:var(--muted);line-height:1.75; }
+    .faith-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px; }
+    .faith-card { position:relative;overflow:hidden;padding:22px;border:1px solid var(--line);border-radius:11px 28px 11px 11px;background:var(--surface);box-shadow:0 7px 22px rgba(27,48,54,.07); }
+    .faith-card::after { content:"";position:absolute;right:-28px;top:-28px;width:86px;height:86px;border:1px solid color-mix(in srgb,var(--gold) 44%,transparent);border-radius:50%;box-shadow:0 0 0 13px color-mix(in srgb,var(--gold) 9%,transparent); }
+    .faith-kicker { margin:0 0 7px;color:var(--sage);font-size:12px;font-weight:800; }
+    .faith-card h3 { position:relative;z-index:1;margin:0 0 5px;padding-right:48px;font:700 24px/1.3 "Noto Serif SC",serif; }
+    .faith-arabic { margin:0 0 14px;color:var(--gold);font:600 21px/1.55 "Noto Naskh Arabic",serif; }
+    .faith-card > p { margin:0 0 15px;color:var(--ink);line-height:1.72; }
+    .faith-lessons { display:grid;gap:8px;margin:0 0 17px;padding:0;list-style:none; }
+    .faith-lessons li { display:grid;grid-template-columns:24px 1fr;gap:9px;align-items:start;color:var(--muted);font-size:13px;line-height:1.55; }
+    .faith-lessons li::before { content:"";width:8px;height:8px;margin:7px 0 0 5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 16%,transparent); }
+    .source-link { display:inline-flex;align-items:center;gap:6px;color:var(--sage);font-size:12px;font-weight:800;text-underline-offset:3px; }
+    .step-card { display:grid;grid-template-columns:48px 1fr;gap:14px;padding:18px;border:1px solid var(--line);border-radius:10px 22px 10px 10px;background:var(--surface); }
+    .step-number { width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--paper-2);color:var(--night-2);font-weight:900; }
+    .step-card h3 { margin:0 0 9px;font:700 23px "Noto Serif SC",serif; }.step-card p { margin:0 0 10px;color:var(--ink);font-size:17px;line-height:1.75; }
+    .prayer-listen { min-height:48px;padding:12px 18px;font-size:15px; }
+    .step-arabic { color:var(--night-2);font:600 22px/1.8 "Noto Serif SC",serif;text-align:right; }
+    .surah-card { border:1px solid var(--line);border-radius:10px 22px 10px 10px;background:var(--surface);overflow:hidden; }
+    .surah-card summary { display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:17px;cursor:pointer;list-style:none; }.surah-card summary::-webkit-details-marker{display:none}
+    .surah-card summary strong { font:700 19px "Noto Serif SC",serif; }.surah-card summary span { color:var(--muted);font-size:12px; }
+    .surah-body { padding:0 17px 18px;border-top:1px solid var(--line); }
+    .timeline-item { display:grid;grid-template-columns:44px 1fr auto;gap:13px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:10px 18px 10px 10px;background:var(--surface); }
+    .timeline-num { width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--paper-2);font-weight:900;color:var(--night-2); }
+    .timeline-item strong { display:block; }.timeline-item small { color:var(--muted); }
+    .timeline-action { border:0;border-radius:999px;padding:8px 11px;background:var(--night-2);color:#fff;font-size:11px;font-weight:800;cursor:pointer; }
+    .timeline-action:disabled { background:var(--paper-2);color:var(--muted); }
+    .play-intro { display:grid;grid-template-columns:1fr auto;align-items:center;gap:22px;margin-bottom:18px;padding:clamp(24px,4vw,40px);color:#fff;background:var(--night);border-radius:26px 8px 26px 8px;box-shadow:var(--shadow); }
+    .play-intro h1,.profile-hero h1 { margin:0 0 9px;font:700 clamp(30px,5vw,50px)/1.18 "Noto Serif SC",serif; }
+    .play-intro p,.profile-hero p { margin:0;color:#ddf2ed;line-height:1.7; }
+    .game-score { min-width:96px;text-align:center;padding:16px;border-radius:50% 50% 18px 18px;background:var(--gold-soft);color:var(--night); }
+    .game-score b { display:block;font-size:29px;line-height:1; }
+    .game-score span { font-size:12px;font-weight:800; }
+    .riddle-card { min-height:300px;display:grid;align-content:center;justify-items:center;text-align:center;padding:clamp(28px,6vw,58px);border:1px solid var(--line);border-radius:14px 34px 14px 14px;background:var(--surface);box-shadow:var(--shadow); }
+    .riddle-step { color:var(--sage);font-size:13px;font-weight:800; }
+    .riddle-card h2 { max-width:680px;margin:14px 0 24px;font:700 clamp(26px,4vw,42px)/1.35 "Noto Serif SC",serif; }
+    .riddle-answer { width:min(520px,100%);margin:0 0 18px;padding:20px;border-radius:12px;background:var(--paper-2);color:var(--night-2);font:700 24px "Noto Serif SC",serif; }
+    .riddle-actions { display:flex;justify-content:center;flex-wrap:wrap;gap:10px; }
+    .secondary-action { border:1px solid var(--line);border-radius:999px;padding:11px 16px;background:var(--surface);color:var(--ink);font-weight:800;cursor:pointer; }
+    .profile-hero { display:grid;grid-template-columns:1fr auto;align-items:center;gap:22px;margin-bottom:18px;padding:clamp(24px,4vw,40px);color:#fff;background:var(--night);border-radius:26px 8px 26px 8px;box-shadow:var(--shadow); }
+    .points-orb { width:112px;height:112px;display:grid;place-items:center;text-align:center;border-radius:50%;background:var(--gold-soft);color:var(--night);box-shadow:inset 0 0 0 7px rgba(255,255,255,.28); }
+    .points-orb b { display:block;font-size:34px;line-height:1; }
+    .points-orb span { display:block;margin-top:4px;font-size:12px;font-weight:800; }
+    .profile-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px; }
+    .profile-card { padding:22px;border:1px solid var(--line);border-radius:11px 26px 11px 11px;background:var(--surface);box-shadow:0 7px 22px rgba(27,48,54,.07); }
+    .profile-card h2 { margin:0 0 8px;font:700 22px "Noto Serif SC",serif; }
+    .profile-card > p { margin:0 0 16px;color:var(--muted);font-size:13px;line-height:1.6; }
+    .badge-wall { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
+    .badge { padding:13px 10px;border-radius:10px 18px 10px 10px;background:var(--paper-2);opacity:.45; }
+    .badge.unlocked { opacity:1;background:color-mix(in srgb,var(--gold) 22%,var(--paper-2)); }
+    .badge b { display:block;font-size:14px; }.badge span { color:var(--muted);font-size:11px; }
+    .favorite-list { display:grid;gap:8px; }
+    .favorite-row { display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:8px 14px 8px 8px;background:var(--paper);font-size:13px;font-weight:700; }
+    .favorite-row button { border:0;background:none;color:var(--danger);cursor:pointer;font-weight:800; }
+    .reminder-row { display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line); }
+    .reminder-row:last-child { border-bottom:0; }
+    .reminder-row label { font-weight:700; }
+    .reminder-row input { border:1px solid var(--line);border-radius:10px;padding:9px;background:var(--paper);color:var(--ink); }
+    .prototype-note { margin-top:14px;padding:12px 14px;border-radius:9px;background:color-mix(in srgb,var(--gold) 15%,var(--paper));color:var(--ink);font-size:12px;line-height:1.55; }
+    .sleep-panel { margin-top:16px;padding-top:16px;border-top:1px solid var(--line); }
+    .sleep-panel strong { display:block;margin-bottom:9px; }
+    .sleep-options { display:flex;flex-wrap:wrap;gap:7px; }
+    .sleep-option { border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:var(--paper);cursor:pointer;font-size:12px;font-weight:700; }
+    .sleep-option[aria-pressed="true"] { background:var(--night-2);border-color:var(--night-2);color:#fff; }
+    .quiz-panel { margin-top:20px;padding-top:18px;border-top:1px solid var(--line); }
+    .quiz-panel[hidden] { display:none; }
+    .quiz-panel h3 { margin:0 0 12px;font:700 21px "Noto Serif SC",serif; }
+    .quiz-question { margin:0 0 12px;line-height:1.55;font-weight:700; }
+    .quiz-options { display:grid;gap:8px; }
+    .quiz-option { width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--paper);text-align:left;cursor:pointer; }
+    .quiz-option.correct { color:#fff;background:var(--night-2); }
+    .quiz-option.wrong { color:#fff;background:var(--danger); }
+    .quiz-feedback { min-height:20px;margin:9px 0 0;color:var(--sage);font-weight:800;font-size:13px; }
+    .toast { position:fixed;z-index:150;left:50%;bottom:96px;transform:translateX(-50%);max-width:calc(100% - 32px);padding:11px 16px;border-radius:999px;background:#173f37;color:#fff8e7;box-shadow:0 12px 36px rgba(0,0,0,.3);font-weight:800;text-align:center; }
+    .toast[hidden] { display:none; }
+    .bottom-nav {
+      position:fixed; z-index:30; left:50%; bottom:max(12px,env(safe-area-inset-bottom)); transform:translateX(-50%);
+      width:min(680px,calc(100% - 28px)); display:grid;grid-template-columns:repeat(5,1fr);
+      padding:6px; border:1px solid rgba(255,255,255,.12); border-radius:20px;
+      background:rgba(9,76,55,.96); box-shadow:0 14px 38px rgba(0,0,0,.28); backdrop-filter:blur(18px);
+    }
+    .nav-btn { display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:14px;background:transparent;color:#c5d8d4;padding:11px 10px;font-weight:700;cursor:pointer; }
+    .nav-btn svg { width:19px;height:19px; }
+    .nav-btn[aria-current="page"] { background:#f2e4bd;color:#173640; }
+    .player-overlay { position:fixed; z-index:100; inset:0; display:grid; place-items:center; padding:18px; background:var(--overlay); backdrop-filter:blur(12px); }
+    .player-overlay[hidden] { display:none; }
+    .player-sheet { width:min(850px,100%); max-height:calc(100vh - 36px); overflow:auto; display:grid; grid-template-columns:minmax(250px,360px) 1fr; background:var(--surface); border-radius:26px 8px 26px 8px; box-shadow:0 28px 90px rgba(0,0,0,.48); }
+    .video-wrap { position:relative; background:#000; min-height:520px; display:flex; align-items:center; border-radius:26px 0 0 8px; overflow:hidden; }
+    video { display:block;width:100%;height:min(76vh,640px);object-fit:contain;background:#000; }
+    .video-status { position:absolute;z-index:2;inset:0;display:grid;place-items:center;padding:24px;text-align:center;background:rgba(0,0,0,.48);color:#fff8e7; }
+    .video-status[hidden] { display:none; }
+    .video-status-inner { display:grid;justify-items:center;gap:12px;max-width:260px; }
+    .video-status p { margin:0;font-size:14px;line-height:1.55; }
+    .video-spinner { width:32px;height:32px;border:3px solid rgba(255,255,255,.3);border-top-color:var(--gold-soft);border-radius:50%;animation:video-spin .8s linear infinite; }
+    .video-start { min-width:150px;border:0;border-radius:999px;padding:12px 18px;background:var(--gold-soft);color:#173f37;font-weight:800;cursor:pointer; }
+    @keyframes video-spin { to { transform:rotate(360deg); } }
+    .player-info { padding:clamp(25px,5vw,48px); position:relative; }
+    .close { position:absolute;right:16px;top:16px;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--paper-2);cursor:pointer;font-size:22px;line-height:1; }
+    .player-kicker { margin-top:24px;color:var(--gold);font-size:13px;font-weight:700; }
+    .player-info h2 { margin:8px 0 10px;font:700 clamp(27px,4vw,42px)/1.18 "Noto Serif SC",serif; }
+    .player-info .theme { color:var(--muted);line-height:1.7; }
+    .audio-choice { display:flex; gap:6px; margin-top:24px; padding:5px; border-radius:999px; background:var(--paper-2); }
+    .audio-choice button { flex:1; border:0; border-radius:999px; padding:10px 12px; background:transparent; color:var(--muted); font-size:13px; font-weight:800; cursor:pointer; }
+    .audio-choice button[aria-pressed="true"] { color:#fff8e7; background:var(--night-2); }
+    .audio-note { margin-top:10px;padding:13px 15px;background:var(--paper-2);border-radius:9px;font-size:13px;line-height:1.55; }
+    video::cue { color:#fff; background:rgba(4,20,16,.78); font:600 16px/1.45 "Noto Sans SC",sans-serif; }
+    .next-btn { display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:18px;padding:13px;border:0;border-radius:999px;background:var(--night);color:#fff8e4;font-weight:700;cursor:pointer; }
+    .empty-note { color:var(--muted); }
+    @media (max-width: 760px) {
+      .topbar { padding-left:18px; padding-right:18px; }
+      .brandline strong { font-size:15px; }
+      .hero { grid-template-columns:1fr; margin-top:18px; min-height:0; border-radius:22px 7px 22px 7px; }
+      .hero-copy { padding:28px 24px 12px; }
+      .hero h1 { font-size:36px; }
+      .hero-art { height:200px; min-height:0; }
+      .hero-art::after { background:linear-gradient(180deg,var(--night) 0%,transparent 60%); }
+      .category-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .category-btn { min-height:54px; }
+      .featured { grid-template-columns:1fr; gap:12px; }
+      .feature-card { aspect-ratio:1.95; }
+      .feature-card img { object-position:50% 27%; }
+      .library-grid { grid-template-columns:1fr; }
+      .episode-card { grid-template-columns:82px 1fr auto; gap:12px; padding:8px; }
+      .episode-card img { width:82px;height:94px; }
+      .episode-card h3 { font-size:17px; }
+      .about-wrap { grid-template-columns:1fr; padding-top:18px; }
+      .about-panel { min-height:280px; }
+      .about-details { padding:8px 2px; }
+      .dua-wrap { padding-top:18px; }
+      .dua-intro { grid-template-columns:1fr; padding:25px 22px; }
+      .dua-switch { width:100%; }
+      .dua-time { flex:1; min-width:0; }
+      .dua-translation,.name-translations { grid-template-columns:1fr; }
+      .dua-card summary { padding:16px; }
+      .dua-body { padding:0 16px 18px; }
+      .nav-btn { flex-direction:column;gap:2px;padding:8px 2px;font-size:11px; }
+      .nav-btn svg { width:18px;height:18px; }
+      .checkin-panel,.play-intro,.profile-hero { grid-template-columns:1fr; }
+      .checkin-panel .primary-action { width:100%; }
+      .game-score { min-width:0;width:94px; }
+      .points-orb { width:98px;height:98px; }
+      .profile-grid { grid-template-columns:1fr; }
+      .learn-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .faith-grid { grid-template-columns:1fr; }
+      .faith-card { padding:19px; }
+      .module-head { align-items:flex-start;flex-direction:column; }
+      .progress-track { width:100%; }
+      .timeline-item { grid-template-columns:38px 1fr; }
+      .timeline-action { grid-column:2;justify-self:start; }
+      .profile-card { padding:18px; }
+      .top-actions { gap:6px; }
+      .score-chip { padding:7px 9px; }
+      .riddle-card { min-height:330px; }
+      .player-sheet { display:block; width:min(410px,100%); max-height:calc(100vh - 20px); }
+      .video-wrap { min-height:0; border-radius:22px 7px 0 0; }
+      video { height:min(61vh,560px); }
+      .player-info { padding:18px 22px 26px; }
+      .player-kicker { margin-top:0; padding-right:46px; }
+    }
+    @media (max-width: 390px) {
+      .brandline strong { display:none; }
+      main { padding-left:14px;padding-right:14px; }
+      .hero h1 { font-size:32px; }
+      .section-head { align-items:flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brandline" aria-label="圣人故事儿童集"><span class="crescent" aria-hidden="true"></span><strong data-i18n="appName">圣人故事儿童集</strong></div>
+    <div class="top-actions">
+      <span class="score-chip" aria-live="polite"><span aria-hidden="true">✦</span><span id="topScore">0</span></span>
+      <button class="language" id="langToggle" type="button" aria-label="Switch to English">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg>
+        <span id="langLabel">English</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="homeView">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="basmala" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <h1 id="heroTitle" data-i18n="appName">圣人故事儿童集</h1>
+          <p data-i18n="heroText">在温柔的光影里，和孩子一起聆听先知的故事，学习诚实、忍耐、勇气与信靠。</p>
+        </div>
+        <div class="hero-art">
+          <img src="assets/thumbs/ep24.jpg" alt="古代沙漠山谷中柔和的晨光" />
+          <span class="star a" aria-hidden="true">✦</span><span class="star b" aria-hidden="true">✦</span>
+        </div>
+      </section>
+
+      <section class="category-block" aria-labelledby="categoryTitle">
+        <div class="section-head"><div><h2 id="categoryTitle" data-i18n="categories">故事分类</h2><p data-i18n="categoriesSub">选择想要探索的故事</p></div></div>
+        <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="故事分类">
+          <button class="category-btn" type="button" role="tab" aria-selected="true" data-category="prophets"><span class="category-symbol" aria-hidden="true">✦</span><span data-i18n="catProphets">先知故事</span></button>
+          <button class="category-btn" type="button" role="tab" aria-selected="false" data-category="hadith"><span class="category-symbol" aria-hidden="true">◌</span><span data-i18n="catHadith">圣训故事</span></button>
+          <button class="category-btn" type="button" role="tab" aria-selected="false" data-category="quran"><span class="category-symbol" aria-hidden="true">◇</span><span data-i18n="catQuran">古兰经故事</span></button>
+          <button class="category-btn" type="button" role="tab" aria-selected="false" data-category="children"><span class="category-symbol" aria-hidden="true">☾</span><span data-i18n="catChildren">儿童故事</span></button>
+        </div>
+      </section>
+
+      <section id="featuredSection" aria-labelledby="featuredTitle">
+        <div class="section-head">
+          <div><h2 id="featuredTitle" data-i18n="featured">穆哈穆德三部曲</h2><p data-i18n="featuredSub">从童年、启示到使命完成</p></div>
+        </div>
+        <div class="featured" id="featuredGrid"></div>
+      </section>
+
+      <section id="library" aria-labelledby="libraryTitle">
+        <div class="section-head">
+          <div><h2 id="libraryTitle" data-i18n="episodes">全部故事</h2><p data-i18n="episodeCount">完整 26 集 · 中英双语配音</p></div>
+        </div>
+        <div class="library-grid" id="episodeGrid"></div>
+      </section>
+
+      <section class="upcoming" id="upcomingSection" hidden aria-live="polite">
+        <div><div class="upcoming-mark" aria-hidden="true">☾</div><h2 id="upcomingTitle">即将推出</h2><p data-i18n="upcomingBody">这个分类正在准备中，敬请期待。</p></div>
+      </section>
+    </section>
+
+    <section class="view" id="duaView" hidden>
+      <div class="dua-wrap">
+        <section class="dua-intro">
+          <div>
+            <h1 data-i18n="duaTitle">每日祈祷求护词</h1>
+            <p data-i18n="duaLead">阿语原文、中文与 English 翻译，陪伴每天的清晨与夜晚。</p>
+          </div>
+          <div class="dua-switch" role="tablist" aria-label="早晚选择" id="duaSwitch">
+            <button class="dua-time" type="button" role="tab" aria-selected="true" data-dua-time="morning" data-i18n="morning">清晨</button>
+            <button class="dua-time" type="button" role="tab" aria-selected="false" data-dua-time="evening" data-i18n="evening">夜晚</button>
+          </div>
+        </section>
+        <div class="checkin-panel">
+          <div><strong data-i18n="checkinTitle">今天完成了吗？</strong><span data-i18n="checkinHelp">每天完成祈祷或圣行后打卡，本次体验可获得 10 分。</span></div>
+          <button class="primary-action checkin-btn" type="button" data-i18n="checkin">今日打卡 +10</button>
+        </div>
+        <p class="dua-count" id="duaCount"></p>
+        <p class="dua-count" id="speechStatus" aria-live="polite"></p>
+        <div class="dua-list" id="duaList"></div>
+      </div>
+    </section>
+
+    <section class="view" id="sunnahView" hidden>
+      <div class="dua-wrap">
+        <section class="dua-intro sunnah-intro">
+          <div>
+            <h1 data-i18n="sunnahTitle">每日圣行</h1>
+            <p data-i18n="sunnahLead">从起床到睡前，把穆圣教导的美好习惯带进孩子的每一天。</p>
+          </div>
+        </section>
+        <div class="checkin-panel">
+          <div><strong data-i18n="checkinTitle">今天完成了吗？</strong><span data-i18n="checkinHelp">每天完成祈祷或圣行后打卡，本次体验可获得 10 分。</span></div>
+          <button class="primary-action checkin-btn" type="button" data-i18n="checkin">今日打卡 +10</button>
+        </div>
+        <p class="dua-count" id="sunnahCount"></p>
+        <p class="dua-count" id="sunnahSpeechStatus" aria-live="polite"></p>
+        <div class="dua-list" id="sunnahList"></div>
+      </div>
+    </section>
+
+    <section class="view" id="playView" hidden>
+      <div class="play-wrap">
+        <section class="play-intro">
+          <div><h1 data-i18n="learnTitle">一起学与玩</h1><p data-i18n="learnLead">猜谜、学美名、学礼拜、背短章，再沿着时间线认识每一位圣人。</p></div>
+          <div class="game-score"><b id="riddleScore">0</b><span data-i18n="learningPoints">学习积分</span></div>
+        </section>
+        <div class="learn-tabs" role="tablist" aria-label="学习内容" id="learnTabs">
+          <button class="learn-tab" type="button" role="tab" aria-selected="true" data-module="riddles" data-i18n="riddleTitle">猜谜语</button>
+          <button class="learn-tab" type="button" role="tab" aria-selected="false" data-module="names" data-i18n="namesTitle">安拉的美名</button>
+          <button class="learn-tab" type="button" role="tab" aria-selected="false" data-module="prayer" data-i18n="prayerTitle">礼拜小老师</button>
+          <button class="learn-tab" type="button" role="tab" aria-selected="false" data-module="surahs" data-i18n="surahsTitle">背诵小短章</button>
+          <button class="learn-tab" type="button" role="tab" aria-selected="false" data-module="timeline" data-i18n="timelineTitle">先知时间线</button>
+          <button class="learn-tab" type="button" role="tab" aria-selected="false" data-module="festivals" data-i18n="festivalsTitle">斋月与节日</button>
+        </div>
+        <section class="learning-panel" id="riddlesPanel">
+          <section class="riddle-card" aria-live="polite"><div class="riddle-step" id="riddleStep"></div><h2 id="riddleQuestion"></h2><div class="riddle-answer" id="riddleAnswer" hidden></div><div class="riddle-actions"><button class="primary-action" id="revealRiddle" type="button" data-i18n="revealAnswer">翻出谜底</button><button class="primary-action" id="riddleCorrect" type="button" hidden data-i18n="guessedRight">我猜中了 +5</button><button class="secondary-action" id="riddleMissed" type="button" hidden data-i18n="tryNext">再来一题</button></div></section>
+        </section>
+        <section class="learning-panel" id="namesPanel" hidden><div class="module-head"><div><h2 data-i18n="namesTitle">安拉的美名</h2><p id="namesProgress"></p></div><div class="progress-track"><span id="namesProgressBar"></span></div></div><div id="nameCard"></div></section>
+        <section class="learning-panel" id="prayerPanel" hidden><div class="module-head"><div><h2 data-i18n="prayerTitle">礼拜小老师</h2><p data-i18n="prayerLead">跟着 9 个步骤学习动作和念词，点击听读。</p></div></div><div class="step-list" id="prayerList"></div></section>
+        <section class="learning-panel" id="surahsPanel" hidden><div class="module-head"><div><h2 data-i18n="surahsTitle">背诵小短章</h2><p id="surahProgress"></p></div><div class="progress-track"><span id="surahProgressBar"></span></div></div><div class="surah-list" id="surahList"></div></section>
+        <section class="learning-panel" id="timelinePanel" hidden><div class="module-head"><div><h2 data-i18n="timelineTitle">先知时间线</h2><p id="timelineProgress"></p></div><div class="progress-track"><span id="timelineProgressBar"></span></div></div><div class="timeline-list" id="timelineList"></div></section>
+        <section class="learning-panel" id="festivalsPanel" hidden>
+          <div class="faith-intro"><h2 data-i18n="festivalsHeading">认识我们的节日与聚礼</h2><p data-i18n="festivalsLead">从斋月到两大节日，再到每周五的聚礼，了解穆斯林共同珍惜的时光。</p></div>
+          <div class="faith-grid" id="festivalGrid"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="aboutView" hidden>
+      <div class="profile-wrap">
+        <section class="profile-hero">
+          <div><h1 data-i18n="myGrowth">我的成长</h1><p data-i18n="growthLead">看故事、做小测验、猜谜语、每日打卡，慢慢收集积分与徽章。</p></div>
+          <div class="points-orb"><div><b id="profileScore">0</b><span data-i18n="points">积分</span></div></div>
+        </section>
+        <div class="profile-grid">
+          <section class="profile-card">
+            <h2 data-i18n="badges">奖励徽章</h2><p data-i18n="badgeHelp">达到积分即可点亮。</p>
+            <div class="badge-wall" id="badgeWall"></div>
+          </section>
+          <section class="profile-card">
+            <h2 data-i18n="favorites">我的收藏</h2><p data-i18n="favoritesHelp">收藏故事、祈祷词与圣行，方便回来继续看。</p>
+            <div class="favorite-list" id="favoriteList"></div>
+          </section>
+          <section class="profile-card">
+            <h2 data-i18n="reminders">每日提醒</h2><p data-i18n="reminderHelp">原型仅在本页面保持打开时提供页内提醒。</p>
+            <div class="reminder-row"><label for="morningTime" data-i18n="morningDua">晨间祈祷</label><input id="morningTime" type="time" value="07:00"></div>
+            <div class="reminder-row"><label for="eveningTime" data-i18n="eveningDua">夜间祈祷</label><input id="eveningTime" type="time" value="20:00"></div>
+            <button class="small-action" id="saveReminders" type="button" data-i18n="setReminders">设置本次提醒</button>
+          </section>
+          <section class="profile-card">
+            <h2 data-i18n="aboutTitle">让信仰的故事，陪伴童年</h2><p data-i18n="languageBody">界面可在简体中文与 English 之间切换。26 集视频均可切换中文与 English 配音，并配有 English 字幕。</p>
+            <div class="maker"><div class="maker-seal" aria-hidden="true">祖</div><div><strong data-i18n="studio">祖丽哈尔工作坊</strong><span data-i18n="country">加拿大 🇨🇦</span></div></div>
+            <div class="prototype-note" data-i18n="sessionNote">这是静态体验版：收藏、积分、打卡与提醒只保留到本次页面关闭。正式 App 上架时可使用账号或设备数据长期保存。</div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="主要导航">
+    <button class="nav-btn" type="button" data-view="home" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 10 8-6 8 6v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9Z"/></svg><span data-i18n="home">故事</span>
+    </button>
+    <button class="nav-btn" type="button" data-view="dua">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 4a8 8 0 1 0 1 14.8A9 9 0 1 1 19 4Z"/><path d="m17.5 7 .5 1.3 1.4.2-1 .9.3 1.4-1.2-.7-1.2.7.3-1.4-1-.9 1.4-.2.5-1.3Z"/></svg><span data-i18n="duaNav">祈祷词</span>
+    </button>
+    <button class="nav-btn" type="button" data-view="sunnah">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4Z"/><path d="M6 17h12M10 8h4M10 11h4"/></svg><span data-i18n="sunnahNav">圣行</span>
+    </button>
+    <button class="nav-btn" type="button" data-view="play">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 4h8l3 4v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8l3-4Z"/><path d="M9 11h6M12 8v6"/></svg><span data-i18n="playNav">猜谜</span>
+    </button>
+    <button class="nav-btn" type="button" data-view="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20c.7-4 2.7-6 6-6s5.3 2 6 6"/></svg><span data-i18n="about">我的</span>
+    </button>
+  </nav>
+</div>
+
+<section class="player-overlay" id="playerOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="playerTitle">
+  <div class="player-sheet">
+    <div class="video-wrap">
+      <video id="videoPlayer" controls playsinline webkit-playsinline preload="metadata"><track id="englishCaptions" kind="subtitles" srclang="en" label="English captions"></video>
+      <audio id="englishAudio" preload="metadata" hidden></audio>
+      <div class="video-status" id="videoStatus" hidden aria-live="polite">
+        <div class="video-status-inner">
+          <span class="video-spinner" id="videoSpinner" aria-hidden="true"></span>
+          <p id="videoStatusText"></p>
+          <button class="video-start" id="videoStart" type="button" hidden></button>
+        </div>
+      </div>
+    </div>
+    <div class="player-info">
+      <button class="close" id="closePlayer" type="button" aria-label="关闭">×</button>
+      <div class="player-kicker" id="playerEpisode"></div>
+      <h2 id="playerTitle"></h2>
+      <p class="theme" id="playerTheme"></p>
+      <div class="audio-choice" id="audioChoice" role="group" aria-label="配音语言">
+        <button type="button" data-audio-lang="zh" aria-pressed="true">中文配音</button>
+        <button type="button" data-audio-lang="en" aria-pressed="false">English</button>
+      </div>
+      <div class="audio-note" id="audioNote">可切换中文或 English 配音；English 模式会显示英文字幕。</div>
+      <div class="listen-row"><button class="favorite-content-btn" id="favoriteEpisode" type="button" aria-pressed="false"><span aria-hidden="true">♡</span><span data-i18n="favorite">收藏故事</span></button></div>
+      <div class="sleep-panel"><strong data-i18n="sleepTimer">睡眠定时</strong><div class="sleep-options" id="sleepOptions"><button class="sleep-option" type="button" data-minutes="0" aria-pressed="true" data-i18n="timerOff">关闭</button><button class="sleep-option" type="button" data-minutes="10">10 min</button><button class="sleep-option" type="button" data-minutes="20">20 min</button><button class="sleep-option" type="button" data-minutes="30">30 min</button></div><p class="dua-count" id="sleepStatus"></p></div>
+      <div class="quiz-panel" id="quizPanel" hidden><h3 data-i18n="quizTitle">看完小测验</h3><div id="quizBody"></div></div>
+      <button class="next-btn" id="nextEpisode" type="button"><span data-i18n="next">播放下一集</span><span aria-hidden="true">→</span></button>
+    </div>
+  </div>
+</section>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  var episodes = [{"episode":1,"id":"ep01","zh":"人祖阿丹","en":"Adam, Father of Humanity","themeZh":"第一集 · 人类的开始","themeEn":"Episode 1 · The beginning of humanity"},{"episode":2,"id":"ep02","zh":"阿丹的后代","en":"Adam's Children","themeZh":"敬畏真主 · 远离嫉妒","themeEn":"Reverence for Allah · Leave jealousy behind"},{"episode":3,"id":"ep03","zh":"伊德里斯先知","en":"Prophet Idris","themeZh":"热爱知识 · 诚实正直","themeEn":"Love knowledge · Live with honesty"},{"episode":4,"id":"ep04","zh":"努哈先知","en":"Prophet Nuh","themeZh":"耐心与坚持","themeEn":"Patience and perseverance"},{"episode":5,"id":"ep05","zh":"呼德圣人","en":"Prophet Hud","themeZh":"谦逊","themeEn":"Humility"},{"episode":6,"id":"ep06","zh":"萨利赫圣人","en":"Prophet Salih","themeZh":"敬畏与信守承诺","themeEn":"Reverence and keeping promises"},{"episode":7,"id":"ep07","zh":"易卜拉欣圣人","en":"Prophet Ibrahim","themeZh":"认主独一 · 全心托靠真主","themeEn":"Oneness of God · Trust in Allah"},{"episode":8,"id":"ep08","zh":"优素福圣人（上）","en":"Prophet Yusuf (Part I)","themeZh":"忍耐","themeEn":"Patience"},{"episode":9,"id":"ep09","zh":"优素福圣人（下）","en":"Prophet Yusuf (Part II)","themeZh":"忍耐与宽恕","themeEn":"Patience and forgiveness"},{"episode":10,"id":"ep10","zh":"舒阿卜圣人","en":"Prophet Shuayb","themeZh":"诚实经商 · 不缺斤短两","themeEn":"Honest trade · Give full measure"},{"episode":11,"id":"ep11","zh":"穆萨圣人（上）","en":"Prophet Musa (Part I)","themeZh":"相信真主 · 真主总有安排","themeEn":"Believe in Allah · His plan is always wise"},{"episode":12,"id":"ep12","zh":"穆萨圣人（中）","en":"Prophet Musa (Part II)","themeZh":"坚持真理最勇敢","themeEn":"Standing for truth is true courage"},{"episode":13,"id":"ep13","zh":"穆萨圣人（下）","en":"Prophet Musa (Part III)","themeZh":"托靠真主 · 真主为信士开出路","themeEn":"Trust in Allah · He opens a way for believers"},{"episode":14,"id":"ep14","zh":"达乌德圣人","en":"Prophet Dawud","themeZh":"勇气与信靠真主","themeEn":"Courage and trust in Allah"},{"episode":15,"id":"ep15","zh":"苏莱曼圣人（上）","en":"Prophet Sulayman (Part I)","themeZh":"真主的礼物","themeEn":"Allah's gifts"},{"episode":16,"id":"ep16","zh":"苏莱曼圣人（下）","en":"Prophet Sulayman (Part II)","themeZh":"真正的智慧","themeEn":"True wisdom"},{"episode":17,"id":"ep17","zh":"易勒雅斯圣人","en":"Prophet Ilyas","themeZh":"偶像无用 · 只求真主","themeEn":"Idols are powerless · Turn only to Allah"},{"episode":18,"id":"ep18","zh":"以利沙圣人","en":"Prophet Alyasa","themeZh":"耐心劝告 · 坚持行善","themeEn":"Patient counsel · Persevere in goodness"},{"episode":19,"id":"ep19","zh":"尤努斯圣人","en":"Prophet Yunus","themeZh":"黑暗中的祈祷","themeEn":"A prayer in the darkness"},{"episode":20,"id":"ep20","zh":"宰凯里雅圣人","en":"Prophet Zakariyya","themeZh":"永不绝望 · 真主应答祈祷","themeEn":"Never despair · Allah answers prayers"},{"episode":21,"id":"ep21","zh":"叶哈雅圣人","en":"Prophet Yahya","themeZh":"爱学习 · 孝顺父母","themeEn":"Love learning · Honor your parents"},{"episode":22,"id":"ep22","zh":"尔撒圣人（上）","en":"Prophet Isa (Part I)","themeZh":"真主派遣的使者","themeEn":"A messenger sent by Allah"},{"episode":23,"id":"ep23","zh":"尔撒圣人（下）","en":"Prophet Isa (Part II)","themeZh":"奇迹凭真主许可 · 真主的仆人和使者","themeEn":"Miracles happen by Allah's permission · His servant and messenger"},{"episode":24,"id":"ep24","zh":"穆哈穆德（上）","en":"Prophet Muhammad (Part I)","themeZh":"真主选定的最后一位圣人 · 童年","themeEn":"The final Prophet chosen by Allah · Childhood"},{"episode":25,"id":"ep25","zh":"穆哈穆德（中）","en":"Prophet Muhammad (Part II)","themeZh":"真主选定的最后一位圣人 · 启示","themeEn":"The final Prophet chosen by Allah · Revelation"},{"episode":26,"id":"ep26","zh":"穆哈穆德（下）","en":"Prophet Muhammad (Part III)","themeZh":"真主选定的最后一位圣人 · 使命完成","themeEn":"The final Prophet chosen by Allah · Mission fulfilled"}];
+  var duaData = {"items":[{"arabic":"اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ","en":"Allah! There is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.","id":"kursi","repeat_en":"Once","repeat_zh":"1遍","source_en":"Quran 2:255","source_zh":"古兰经 2:255","title_en":"Ayat al-Kursi","title_zh":"阿亚特库尔西","zh":"真主，除他外绝无应受崇拜者；他是永生不灭的，是维护万物的；瞌睡不能侵犯他，睡眠不能克服他；天地万物都是他的；不经他的许可，谁能在他那里替人说情呢？他知道他们面前的事，和他们身后的事；除他所启示的外，他们绝不能包罗他的知识的一部分；他的宝座包罗天地，对天地的维持毫不费力；他是至尊的，是至大的。"},{"arabic":"قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ\n\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ","en":"Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent.\n\nSay: I seek refuge with the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies.\n\nSay: I seek refuge with the Lord of mankind, the King of mankind, the God of mankind, from the evil of the retreating whisperer, who whispers into the breasts of mankind, from among jinn and mankind.","id":"three-surahs","repeat_en":"3 times each","repeat_zh":"各念3遍","source_en":"Quran 112, 113, 114","source_zh":"古兰经 112、113、114 章","title_en":"The Three Surahs","title_zh":"忠诚章 · 曙光章 · 世人章","zh":"你说：他是真主，是独一的主；真主是万物所仰赖的；他没有生产，也没有被生产；没有任何物可以做他的匹敌。\n\n你说：我求庇于曙光的主，免遭他所创造者的毒害；免遭黑夜笼罩时的毒害；免遭吹破坚决的主意者的毒害；免遭嫉妒者嫉妒时的毒害。\n\n你说：我求庇于世人的主宰，世人的国王，世人的神灵，免遭潜伏的教唆者的毒害；他在世人的胸中教唆，他是属于精灵和人类的。"},{"arabic":"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ","en":"O Allah, You are my Lord, there is no deity but You. You created me and I am Your servant, and I abide by Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for no one forgives sins except You.","id":"sayyid-istighfar","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Sayyid al-Istighfar","title_zh":"求恕词之首","zh":"主啊！你是我的主，除你外，绝无应受崇拜者。你创造了我，我是你的仆人，我尽力履行对你的契约和许诺。我求你庇护，免遭我所作恶事的伤害。我向你承认你赐予我的恩典，也向你承认我的罪过，求你饶恕我，因为除你外，无人能饶恕罪过。"},{"arabic":"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ","en":"We have reached the morning, and all sovereignty belongs to Allah. All praise is for Allah. There is no deity but Allah alone, without partner. To Him belongs sovereignty and to Him belongs praise, and He is over all things competent. My Lord, I ask You for the good of this day and the good of what follows it, and I seek refuge in You from the evil of this day and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from punishment in the Fire and punishment in the grave.","id":"mulk-morning","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Morning: Sovereignty belongs to Allah","title_zh":"早晨赞主词","zh":"我们早晨起来了，主权属于真主。一切赞颂，全归真主。除真主外，绝无应受崇拜者，他是独一的，无匹敌的，主权属于他，赞颂属于他，他对万事是全能的。我的主啊！我向你祈求这个白昼中的吉庆，以及这个白昼之后的吉庆；我求你庇护，免遭这个白昼中的邪恶，以及这个白昼之后的邪恶。我的主啊！我求你庇护，免于懒惰和老年的恶果；我的主啊！我求你庇护，免遭火狱的刑罚和坟墓的刑罚。"},{"arabic":"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ","en":"We have reached the evening, and all sovereignty belongs to Allah. All praise is for Allah. There is no deity but Allah alone, without partner. To Him belongs sovereignty and to Him belongs praise, and He is over all things competent. My Lord, I ask You for the good of this night and the good of what follows it, and I seek refuge in You from the evil of this night and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from punishment in the Fire and punishment in the grave.","id":"mulk-evening","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Evening: Sovereignty belongs to Allah","title_zh":"夜晚赞主词","zh":"我们夜晚来临了，主权属于真主。一切赞颂，全归真主。除真主外，绝无应受崇拜者，他是独一的，无匹敌的，主权属于他，赞颂属于他，他对万事是全能的。我的主啊！我向你祈求这个夜晚中的吉庆，以及这个夜晚之后的吉庆；我求你庇护，免遭这个夜晚中的邪恶，以及这个夜晚之后的邪恶。我的主啊！我求你庇护，免于懒惰和老年的恶果；我的主啊！我求你庇护，免遭火狱的刑罚和坟墓的刑罚。"},{"arabic":"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ","en":"O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.","id":"bika-morning","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"By You we enter the morning","title_zh":"因你而朝夕（晨）","zh":"主啊！我们因你而早晨，因你而夜晚，因你而生，因你而死，复活只归于你。"},{"arabic":"اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ","en":"O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is the return.","id":"bika-evening","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"By You we enter the evening","title_zh":"因你而朝夕（昏）","zh":"主啊！我们因你而夜晚，因你而早晨，因你而生，因你而死，归宿只属于你。"},{"arabic":"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ","en":"In the name of Allah, with whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing.","id":"bismillah","repeat_en":"3 times","repeat_zh":"3遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Nothing can harm with His name","title_zh":"奉真主之名 无物能害","zh":"奉真主之名，有他的名字，天上地下一切都不能伤害，他是全聪的、全知的。"},{"arabic":"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ","en":"I seek refuge in the perfect words of Allah from the evil of what He has created.","id":"kalimatillah","repeat_en":"3 times","repeat_zh":"3遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Refuge in Allah's perfect words","title_zh":"求完美言辞庇护","zh":"我求真主完美的言辞庇护，免遭他所创造者的毒害。"},{"arabic":"رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا","en":"I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace and blessings of Allah be upon him) as my Prophet.","id":"raditu","repeat_en":"3 times","repeat_zh":"3遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Pleased with Allah as my Lord","title_zh":"喜悦真主为我的主","zh":"我喜悦真主为我的主，喜悦伊斯兰为我的宗教，喜悦穆罕默德（愿主福安之）为我的先知。"},{"arabic":"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ","en":"Allah is sufficient for me; there is no deity but Him. Upon Him I rely, and He is the Lord of the Great Throne.","id":"hasbiya","repeat_en":"7 times","repeat_zh":"7遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Allah is sufficient for me","title_zh":"真主使我满足","zh":"真主使我满足了，除他外绝无应受崇拜者，我托靠他，他是伟大宝座的主。"},{"arabic":"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ","en":"Glory be to Allah and praise Him.","id":"subhanallah","repeat_en":"100 times","repeat_zh":"100遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Glory be to Allah","title_zh":"赞主超绝","zh":"赞真主超绝，赞颂真主。"},{"arabic":"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ","en":"There is no deity but Allah alone, without partner. To Him belongs sovereignty and to Him belongs praise, and He is over all things competent.","id":"tahlil","repeat_en":"100 times","repeat_zh":"100遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Declaration of Oneness","title_zh":"独一赞词","zh":"除真主外绝无应受崇拜者，他独一无二，无匹敌，主权归他，赞颂归他，他对万事全能。"},{"arabic":"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا","en":"O Allah, I ask You for beneficial knowledge, wholesome provision, and accepted deeds.","id":"ilman","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Beneficial knowledge","title_zh":"祈求有益的知识","zh":"主啊！我向你祈求有益的知识、佳美的给养和被接受的工作。"},{"arabic":"يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ","en":"O Ever-Living, O Sustainer, by Your mercy I seek help. Rectify all my affairs for me, and do not leave me to myself even for the blink of an eye.","id":"ya-hayyu","repeat_en":"Once","repeat_zh":"1遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"O Ever-Living, O Sustainer","title_zh":"永生维护的主啊","zh":"永生不灭的、维护万物的主啊！我以你的慈悯求助，求你改善我的一切事务，不要把我交托给我自己，哪怕一眨眼的功夫。"},{"arabic":"اللَّهُمَّ عَافِنِي فِي بَدَنِي اللَّهُمَّ عَافِنِي فِي سَمْعِي اللَّهُمَّ عَافِنِي فِي بَصَرِي لَا إِلَهَ إِلَّا أَنْتَ\n\nاللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ لَا إِلَهَ إِلَّا أَنْتَ","en":"O Allah, grant health to my body. O Allah, grant health to my hearing. O Allah, grant health to my sight. There is no deity but You.\n\nO Allah, I seek refuge in You from disbelief and poverty. O Allah, I seek refuge in You from the punishment of the grave. There is no deity but You.","id":"afini","repeat_en":"3 times each","repeat_zh":"各3遍","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Health and refuge","title_zh":"祈求健康与庇护","zh":"主啊！求你在我的身体上赐我健康；主啊！求你在我的听觉上赐我健康；主啊！求你在我的视觉上赐我健康；除你外绝无应受崇拜者。\n\n主啊！我求你庇护，免于不信和贫穷；主啊！我求你庇护，免遭坟墓的刑罚；除你外绝无应受崇拜者。"}],"note":"每日祈祷求护词三语内容。依据《穆斯林堡垒》(Hisn al-Muslim) 及古兰经文整理，供学习纪念。App 需新增「每日祈祷」板块：早晨 / 夜晚两个分组，每条展示阿语原文、中文翻译、英文翻译及念诵遍数。","sections":{"evening":["kursi","three-surahs","sayyid-istighfar","mulk-evening","bika-evening","bismillah","kalimatillah","raditu","hasbiya","subhanallah","tahlil","ya-hayyu","afini"],"morning":["kursi","three-surahs","sayyid-istighfar","mulk-morning","bika-morning","bismillah","raditu","hasbiya","subhanallah","tahlil","ilman","ya-hayyu","afini"]}};
+  var sunnahData = {"items":[{"arabic":"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ","en":"All praise is for Allah, who gave us life after our sleep, and to Him is the resurrection.","id":"wake-up","moment_en":"When waking up","moment_zh":"早晨起床时","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Waking up","title_zh":"起床祈祷","zh":"一切赞颂归于真主，他使我们在沉睡后醒来，复活只归于他。"},{"arabic":"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ … 出来后念：غُفْرَانَكَ","en":"Before entering: O Allah, I seek refuge in You from evil devils. After leaving: I ask Your forgiveness.","id":"bathroom","moment_en":"Before and after the bathroom","moment_zh":"如厕前后","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Bathroom supplications","title_zh":"如厕的祈祷","zh":"进去前念：主啊！我求你庇护，免遭恶魔的伤害。出来后念：求你饶恕我。"},{"arabic":"بِسْمِ اللَّهِ … 饭后念：الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ","en":"Say “Bismillah” before eating and eat with the right hand. After eating: All praise is for Allah, who fed us, gave us drink, and made us Muslims.","id":"eating","moment_en":"When eating","moment_zh":"吃饭时","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Eating","title_zh":"吃饭的圣行","zh":"吃饭前念“奉真主之名”，用右手吃；饭后念：一切赞颂归于真主，他赐我们饮食，使我们成为穆斯林。"},{"arabic":"الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ","en":"Put on the right side first. Then say: All praise is for Allah, who clothed me with this and provided it for me without any power of my own.","id":"dressing","moment_en":"When getting dressed","moment_zh":"穿衣服时","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Dressing from the right","title_zh":"穿衣从右边开始","zh":"穿衣、穿鞋先穿右边。穿好后念：一切赞颂归于真主，他赐我这衣服，赐我给养，而我毫无能力。"},{"arabic":"بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ","en":"In the name of Allah, I place my trust in Allah; there is no might nor power except with Allah.","id":"leaving-home","moment_en":"When leaving home","moment_zh":"出门时","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Leaving the house","title_zh":"出门的祈祷","zh":"奉真主之名，我托靠真主；无能为力，唯凭真主。"},{"arabic":"السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ","en":"May Allah's peace, mercy, and blessings be upon you. Say it when entering your home too.","id":"salaam","moment_en":"When meeting family and friends","moment_zh":"见到家人朋友时","source_en":"Quran 24:61","source_zh":"古兰经 24:61","title_en":"Greet with salaam first","title_zh":"先说赛俩目","zh":"愿真主的平安、慈悯和吉庆降临你们。回家进门也要先说赛俩目。"},{"arabic":"السِّوَاكُ مَطْهَرَةٌ لِلْفَمِ مَرْضَاةٌ لِلرَّبِّ","en":"The Prophet loved to clean his teeth. Brushing keeps the mouth clean and pleases Allah.","id":"miswak","moment_en":"When brushing your teeth","moment_zh":"每天刷牙时","source_en":"Hadith (Bukhari, Muslim)","source_zh":"圣训（布哈里、穆斯林辑录）","title_en":"Cleaning the teeth","title_zh":"刷牙的圣行","zh":"穆圣喜欢刷牙。刷牙让嘴巴干净，也让真主喜悦。"},{"arabic":"يَا غُلَامُ سَمِّ اللَّهَ وَكُلْ بِيَمِينِكَ وَكُلْ مِمَّا يَلِيكَ","en":"Young one! Mention Allah's name, eat with your right hand, and eat from what is near you.","id":"right-hand","moment_en":"When eating or giving things","moment_zh":"吃饭、递东西时","source_en":"Hadith (Bukhari, Muslim)","source_zh":"圣训（布哈里、穆斯林辑录）","title_en":"Using the right hand","title_zh":"用右手","zh":"吃饭、接递东西用右手，这是穆圣教导孩子的圣行。"},{"arabic":"تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ","en":"Your smile in the face of your brother is charity for you.","id":"smile","moment_en":"When you smile at others","moment_zh":"对人微笑时","source_en":"Hadith (Tirmidhi)","source_zh":"圣训（提尔密济辑录）","title_en":"A smile is charity","title_zh":"微笑是施舍","zh":"你对兄弟姐妹微笑，就是一份施舍。"},{"arabic":"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا","en":"Sleep on your right side and say: In Your name, O Allah, I die and I live. You can also recite Ayat al-Kursi and the three Surahs.","id":"sleep","moment_en":"Before sleeping","moment_zh":"睡觉前","source_en":"Hisn al-Muslim","source_zh":"《穆斯林堡垒》","title_en":"Before sleep","title_zh":"睡前的圣行","zh":"右侧卧睡，念：主啊！奉你的名，我睡去，我醒来。还可以念阿亚特库尔西和三短章。"}]};
+  var quizData = {"ep01":[{"answer":0,"opts_en":["Clay","Stone","Wood"],"opts_zh":["泥土","石头","木头"],"q_en":"What did Allah create Adam from?","q_zh":"真主用什么创造了阿丹？"},{"answer":0,"opts_en":["Adam","The sun","A mountain"],"opts_zh":["阿丹","太阳","大山"],"q_en":"To whom did Allah order the angels to prostrate?","q_zh":"天使们奉命向谁叩头？"},{"answer":0,"opts_en":["Paradise","The desert","The sea"],"opts_zh":["乐园","沙漠","海底"],"q_en":"Where did Adam and Hawa live?","q_zh":"阿丹和哈娃住在哪里？"}],"ep04":[{"answer":0,"opts_en":["950 years","50 years","100 years"],"opts_zh":["950年","50年","100年"],"q_en":"How many years did Nuh call people to Allah?","q_zh":"努哈宣教了多少年？"},{"answer":0,"opts_en":["The Ark","A palace","A tower"],"opts_zh":["方舟","宫殿","高塔"],"q_en":"What did Nuh build?","q_zh":"努哈建造了什么？"},{"answer":0,"opts_en":["The animals","Soldiers","Merchants"],"opts_zh":["动物们","士兵们","商人们"],"q_en":"Who else boarded the Ark?","q_zh":"登上方舟的还有谁？"}],"ep07":[{"answer":0,"opts_en":["The idols","A mirror","Clay pots"],"opts_zh":["偶像","镜子","陶罐"],"q_en":"What did Ibrahim break?","q_zh":"易卜拉欣打碎了什么？"},{"answer":0,"opts_en":["Cool and safe","Hotter","Smoke"],"opts_zh":["凉爽平安","更旺","浓烟"],"q_en":"What did Allah command the fire to become?","q_zh":"真主让烈火变成什么？"},{"answer":0,"opts_en":["Allah alone","The stars","The moon"],"opts_zh":["独一的真主","星星","月亮"],"q_en":"Whom did Ibrahim worship?","q_zh":"易卜拉欣只崇拜谁？"}],"ep11":[{"answer":0,"opts_en":["A basket on the Nile","A cave","The palace gate"],"opts_zh":["尼罗河上的摇篮","山洞","王宫门口"],"q_en":"Where was baby Musa placed?","q_zh":"婴儿穆萨被放在哪里？"},{"answer":0,"opts_en":["Asiya","A merchant","A fisherman"],"opts_zh":["阿西娅","商人","渔夫"],"q_en":"Who found the basket?","q_zh":"谁发现了摇篮？"},{"answer":0,"opts_en":["His own mother","The queen's sister","A neighbor"],"opts_zh":["他的母亲","王后的姐妹","邻居"],"q_en":"Who became Musa's wet nurse?","q_zh":"谁做了穆萨的奶妈？"}],"ep14":[{"answer":0,"opts_en":["A sling and stones","A sword","A spear"],"opts_zh":["弹弓和石头","宝剑","长矛"],"q_en":"What did Dawud defeat the giant with?","q_zh":"达乌德用什么打败巨人？"},{"answer":0,"opts_en":["Jalut","Pharaoh","Haman"],"opts_zh":["贾鲁特","法老","哈曼"],"q_en":"What was the giant's name?","q_zh":"巨人叫什么名字？"},{"answer":0,"opts_en":["Shepherd","Blacksmith","Weaver"],"opts_zh":["牧羊","打铁","织布"],"q_en":"What work did young Dawud do?","q_zh":"少年达乌德做什么工作？"}],"ep19":[{"answer":0,"opts_en":["A big fish","A ship","A wave"],"opts_zh":["大鱼","大船","海浪"],"q_en":"What swallowed Yunus?","q_zh":"尤努斯被什么吞下？"},{"answer":0,"opts_en":["Allah","The stars","The sea"],"opts_zh":["真主","星星","海神"],"q_en":"To whom did he pray in the darkness?","q_zh":"黑暗中他向谁祈祷？"},{"answer":0,"opts_en":["Forgave and saved him","Forgot him","Punished him"],"opts_zh":["饶恕并拯救了他","忘记了他","惩罚了他"],"q_en":"What did Allah do for him in the end?","q_zh":"最后真主怎样待他？"}],"ep22":[{"answer":0,"opts_en":["Angel Jibril","A king","A caravan"],"opts_zh":["哲不来伊勒天使","国王","商队"],"q_en":"Who brought the glad tidings to Maryam?","q_zh":"谁给麦尔彦带来喜讯？"},{"answer":0,"opts_en":["Isa","Yahya","Yusuf"],"opts_zh":["尔撒","叶哈雅","优素福"],"q_en":"What is Maryam's son called?","q_zh":"麦尔彦的儿子叫什么？"},{"answer":0,"opts_en":["He spoke","He walked","He waved"],"opts_zh":["开口说话","站起来走路","微笑招手"],"q_en":"What did baby Isa do in the cradle?","q_zh":"襁褓中的尔撒做了什么？"}],"ep24":[{"answer":0,"opts_en":["Honest and trustworthy","Very strong","Very fast"],"opts_zh":["诚实可信","力气大","跑得快"],"q_en":"Why was he called Al-Amin?","q_zh":"人们为什么称他“艾米尼”？"},{"answer":0,"opts_en":["Makkah","Madinah","Damascus"],"opts_zh":["麦加","麦地那","大马士革"],"q_en":"In which city was Muhammad born?","q_zh":"穆圣出生在哪座城市？"},{"answer":0,"opts_en":["His grandfather and uncle","A king","A merchant"],"opts_zh":["祖父和伯父","国王","商人"],"q_en":"Who took care of him as a child?","q_zh":"幼年时谁照顾他长大？"}],"ep25":[{"answer":0,"opts_en":["The cave of Hira","The mosque","The market"],"opts_zh":["希拉山洞","清真寺","集市"],"q_en":"Where did the first revelation come down?","q_zh":"首次启示降在哪里？"},{"answer":0,"opts_en":["Read","Run","Sleep"],"opts_zh":["读","跑","睡"],"q_en":"What did the first verse command him to do?","q_zh":"第一节经文命令他做什么？"},{"answer":0,"opts_en":["Khadijah","Asiya","Maryam"],"opts_zh":["赫蒂彻","阿西娅","麦尔彦"],"q_en":"Who was the first woman to believe?","q_zh":"第一位归信的女性是谁？"}],"ep26":[{"answer":0,"opts_en":["The mosque","A palace","A market"],"opts_zh":["清真寺","王宫","市场"],"q_en":"What did the Prophet build in Madinah?","q_zh":"在麦地那穆圣建立了什么？"},{"answer":0,"opts_en":["The last one","The first one","One in the middle"],"opts_zh":["最后一位","第一位","中间一位"],"q_en":"What is Muhammad's place among the prophets?","q_zh":"穆圣是第几位圣人？"},{"answer":0,"opts_en":["No","Yes","Not sure"],"opts_zh":["不会","会","不知道"],"q_en":"Will there be any prophet after him?","q_zh":"他之后还会不会有圣人？"}],"ep02":[{"q_zh":"哈比勒向真主献上了什么？","q_en":"What did Habil offer to Allah?","opts_zh":["最好的羊","不好的庄稼","石头"],"opts_en":["His best sheep","Poor crops","Stones"],"answer":0},{"q_zh":"嘎比勒为什么推倒了弟弟？","q_en":"Why did Qabil push his brother down?","opts_zh":["嫉妒","饥饿","好玩"],"opts_en":["Jealousy","Hunger","For fun"],"answer":0},{"q_zh":"真主派来什么，教嘎比勒如何安葬弟弟？","q_en":"What did Allah send to teach Qabil how to bury his brother?","opts_zh":["乌鸦","鸽子","麻雀"],"opts_en":["A crow","A dove","A sparrow"],"answer":0}],"ep03":[{"q_zh":"谁是第一个拿起笔的人？","q_en":"Who was the first to pick up the pen?","opts_zh":["伊德里斯","努哈","阿丹"],"opts_en":["Idris","Nuh","Adam"],"answer":0},{"q_zh":"伊德里斯把什么知识教给了人类？","q_en":"What knowledge did Idris teach mankind?","opts_zh":["星星、数字和计算","造船","种地"],"opts_en":["Stars, numbers and calculation","Shipbuilding","Farming"],"answer":0},{"q_zh":"真主把伊德里斯提高到了哪里？","q_en":"Where did Allah raise Idris?","opts_zh":["高位","山顶","王宫"],"opts_en":["A high station","A mountain top","A palace"],"answer":0}],"ep05":[{"q_zh":"阿德人住在什么样的城市里？","q_en":"What kind of city did the people of Ad live in?","opts_zh":["石柱城","山洞","帐篷村"],"opts_en":["The stone-pillar city","Caves","A tent village"],"answer":0},{"q_zh":"人们看到天边的黑云，以为是什么？","q_en":"What did the people think the black cloud on the horizon was?","opts_zh":["带来雨水的云","黑烟","鸟群"],"opts_en":["A rain-bearing cloud","Black smoke","A flock of birds"],"answer":0},{"q_zh":"那片黑云实际上是什么？","q_en":"What was that black cloud really?","opts_zh":["毁灭的暴风","大雨","冰雹"],"opts_en":["A destructive storm","Heavy rain","Hail"],"answer":0}],"ep06":[{"q_zh":"赛姆德人在哪里凿出了漂亮的石屋？","q_en":"Where did the Thamud carve their beautiful stone houses?","opts_zh":["大山里","沙漠里","海边"],"opts_en":["In the mountains","In the desert","By the sea"],"answer":0},{"q_zh":"人们向萨利赫要求什么神迹？","q_en":"What miracle did the people demand from Salih?","opts_zh":["巨石中生出母驼","天上掉下金子","石头变成水"],"opts_en":["A she-camel from the rock","Gold falling from the sky","Stone turning into water"],"answer":0},{"q_zh":"坏人们违背约定，对母驼做了什么？","q_en":"What did the evildoers do to the she-camel, breaking their promise?","opts_zh":["伤害了它","保护了它","放走了它"],"opts_en":["They harmed it","They protected it","They set it free"],"answer":0}],"ep08":[{"q_zh":"小优素福梦见了什么？","q_en":"What did young Yusuf dream about?","opts_zh":["十一颗星星、太阳和月亮向他叩拜","一条大鱼","一场洪水"],"opts_en":["Eleven stars, the sun and the moon prostrating to him","A big fish","A flood"],"answer":0},{"q_zh":"爸爸温柔地叮嘱优素福什么？","q_en":"What did his father gently tell Yusuf?","opts_zh":["先不要把梦告诉哥哥们","告诉所有人","忘记这个梦"],"opts_en":["Do not tell your brothers about the dream yet","Tell everyone","Forget the dream"],"answer":0},{"q_zh":"谁把枯井里的优素福救了上来？","q_en":"Who rescued Yusuf from the dry well?","opts_zh":["商队打水的人","国王","渔夫"],"opts_en":["The caravan's water-drawer","A king","A fisherman"],"answer":0}],"ep09":[{"q_zh":"国王做了一个什么奇怪的梦？","q_en":"What strange dream did the king have?","opts_zh":["七头肥牛被七头瘦牛吃掉，还有青麦和干麦穗","一条大鱼","天上掉下金子"],"opts_en":["Seven fat cows eaten by seven thin cows, and green and dry ears of wheat","A big fish","Gold falling from the sky"],"answer":0},{"q_zh":"优素福说，七个丰年里要做什么准备？","q_en":"What did Yusuf say people should do during the seven years of plenty?","opts_zh":["存粮食","卖掉粮食","把粮食送人"],"opts_en":["Store grain","Sell the grain","Give the grain away"],"answer":0},{"q_zh":"哥哥们来埃及买粮，优素福认出他们后做了什么？","q_en":"When his brothers came to Egypt for grain, what did Yusuf do after recognizing them?","opts_zh":["原谅了他们","赶走了他们","假装不认识"],"opts_en":["He forgave them","He drove them away","He pretended not to know them"],"answer":0}],"ep10":[{"q_zh":"麦德彦的有些商人有什么坏毛病？","q_en":"What bad habit did some merchants of Madyan have?","opts_zh":["缺斤短两","卖假货","要价太高"],"opts_en":["Shortchanging customers","Selling fakes","Charging too much"],"answer":0},{"q_zh":"舒阿卜劝告大家什么？","q_en":"What did Shuayb advise the people?","opts_zh":["称量要公平，不要克扣别人的东西","多赚钱","少交税"],"opts_en":["Weigh fairly and do not cheat others","Earn more money","Pay less tax"],"answer":0},{"q_zh":"酷热中，人们躲进一片云的阴影里想干什么？","q_en":"In the scorching heat, why did people hide in the shade of a cloud?","opts_zh":["想凉快凉快","想躲雨","想睡觉"],"opts_en":["To cool off","To shelter from rain","To sleep"],"answer":0}],"ep12":[{"q_zh":"穆萨和哈伦奉命去见谁？","q_en":"Whom were Musa and Harun commanded to go and see?","opts_zh":["法老","国王的厨师","商人"],"opts_en":["Pharaoh","The king's cook","A merchant"],"answer":0},{"q_zh":"法老召集了谁来和穆萨比赛？","q_en":"Whom did Pharaoh summon to compete against Musa?","opts_zh":["魔法师","士兵","歌手"],"opts_en":["The magicians","Soldiers","Singers"],"answer":0},{"q_zh":"魔法师们看到真相后做了什么？","q_en":"What did the magicians do when they saw the truth?","opts_zh":["朝向圣光叩拜，归信了真主","逃跑了","继续施魔法"],"opts_en":["They prostrated toward the light and believed in Allah","They ran away","They kept doing magic"],"answer":0}],"ep13":[{"q_zh":"穆萨用什么击打大海？","q_en":"What did Musa strike the sea with?","opts_zh":["手杖","宝剑","手"],"opts_en":["His staff","A sword","His hand"],"answer":0},{"q_zh":"海水分开后，中间出现了什么？","q_en":"After the sea parted, what appeared in the middle?","opts_zh":["一条干爽的大道","一座桥","一条船"],"opts_en":["A dry path","A bridge","A boat"],"answer":0},{"q_zh":"大家平安过海后做了什么？","q_en":"What did the people do after crossing the sea safely?","opts_zh":["欢呼着感谢真主","倒头就睡","继续赶路"],"opts_en":["They cheered and thanked Allah","They fell asleep","They kept walking"],"answer":0}],"ep15":[{"q_zh":"真主赐给苏莱曼什么特别的礼物？","q_en":"What special gifts did Allah give Sulayman?","opts_zh":["听懂动物说话、指挥风","飞翔","隐身"],"opts_en":["Understanding the speech of animals and commanding the wind","Flying","Invisibility"],"answer":0},{"q_zh":"苏莱曼听见小蚂蚁在喊什么？","q_en":"What did Sulayman hear the little ant crying out?","opts_zh":["蚂蚁们快回家，别被大军踩到","快出来看热闹","快把粮食藏好"],"opts_en":["Ants, hurry home, do not get trampled by the army","Come out and watch","Hide the food quickly"],"answer":0},{"q_zh":"精灵们为苏莱曼做了什么？","q_en":"What did the jinn do for Sulayman?","opts_zh":["建起宏伟的宫殿","做饭","唱歌"],"opts_en":["They built a magnificent palace","They cooked","They sang"],"answer":0}],"ep16":[{"q_zh":"谁带着礼物来拜访苏莱曼？","q_en":"Who came to visit Sulayman with gifts?","opts_zh":["示巴女王","邻国国王","商人"],"opts_en":["The Queen of Sheba","A neighboring king","A merchant"],"answer":0},{"q_zh":"谁在眨眼之间把女王的宝座带来了？","q_en":"Who brought the queen's throne in the blink of an eye?","opts_zh":["一个有经典知识的人","精灵","苏莱曼自己"],"opts_en":["The one with knowledge of the Scripture","A jinn","Sulayman himself"],"answer":0},{"q_zh":"女王走进水晶宫殿时，为什么轻轻提起裙摆？","q_en":"Why did the queen lift her skirt slightly when entering the crystal palace?","opts_zh":["她以为地面是水，怕弄湿衣服","她的裙子太长了","她想跳舞"],"opts_en":["She thought the floor was water and feared wetting her dress","Her dress was too long","She wanted to dance"],"answer":0}],"ep17":[{"q_zh":"易勒雅斯的族人围着什么跪拜？","q_en":"What did the people of Ilyas gather around and worship?","opts_zh":["一座大大的石像拜尔","太阳","月亮"],"opts_en":["A big stone idol called Ba'l","The sun","The moon"],"answer":0},{"q_zh":"大旱来了，石像帮上忙了吗？","q_en":"When the drought came, did the idol help at all?","opts_zh":["没有，什么忙也帮不上","帮了一点","帮了大忙"],"opts_en":["No, it helped nothing at all","It helped a little","It helped a lot"],"answer":0},{"q_zh":"最后是谁降下了甘甜的雨水？","q_en":"Who finally sent down the sweet rain?","opts_zh":["真主","石像","易勒雅斯自己"],"opts_en":["Allah","The idol","Ilyas himself"],"answer":0}],"ep18":[{"q_zh":"以利沙从谁那里接过了劝告人们的使命？","q_en":"From whom did Alyasa receive the mission of advising the people?","opts_zh":["易勒雅斯","穆萨","达乌德"],"opts_en":["Ilyas","Musa","Dawud"],"answer":0},{"q_zh":"以利沙走进市集，大声劝告人们什么？","q_en":"What did Alyasa call out to the people in the marketplace?","opts_zh":["放下偶像，只有独一的真主值得崇拜","多造一些偶像","搬到远方去"],"opts_en":["Put down the idols; only Allah alone deserves worship","Make more idols","Move far away"],"answer":0},{"q_zh":"有人嘲笑他时，以利沙怎么做？","q_en":"When people mocked him, what did Alyasa do?","opts_zh":["不生气，耐心微笑，继续劝告","生气地吵架","转身离开"],"opts_en":["He stayed patient, smiled, and kept advising","He argued angrily","He walked away"],"answer":0}],"ep20":[{"q_zh":"年迈的宰凯里雅在圣殿里细心照顾着谁？","q_en":"Whom did the elderly Zakariyya carefully look after in the sanctuary?","opts_zh":["小麦尔彦","小叶哈雅","小易卜拉欣"],"opts_en":["Little Maryam","Little Yahya","Little Ibrahim"],"answer":0},{"q_zh":"冬天的一个早晨，麦尔彦面前出现了什么？","q_en":"One winter morning, what appeared before Maryam?","opts_zh":["新鲜的水果","新衣服","玩具"],"opts_en":["Fresh fruits","New clothes","Toys"],"answer":0},{"q_zh":"真主应答了宰凯里雅的祈祷，赐给他的儿子叫什么？","q_en":"Allah answered Zakariyya's prayer. What was his son named?","opts_zh":["叶哈雅","尔撒","优素福"],"opts_en":["Yahya","Isa","Yusuf"],"answer":0}],"ep21":[{"q_zh":"小叶哈雅从小就爱做什么？","q_en":"What did little Yahya love to do from childhood?","opts_zh":["坐在圣殿里认真读经典","放羊","玩耍"],"opts_en":["Sit in the sanctuary and read the Scripture earnestly","Herd sheep","Play"],"answer":0},{"q_zh":"叶哈雅怎样孝顺年迈的爸爸妈妈？","q_en":"How was Yahya dutiful to his elderly parents?","opts_zh":["常常端水给他们喝","给他们买礼物","陪他们散步"],"opts_en":["He often brought them water to drink","He bought them gifts","He took walks with them"],"answer":0},{"q_zh":"真主对叶哈雅说了什么？","q_en":"What did Allah say to Yahya?","opts_zh":["叶哈雅啊，你要坚持经典","多睡觉","去旅行"],"opts_en":["O Yahya, hold fast to the Scripture","Sleep more","Go traveling"],"answer":0}],"ep23":[{"q_zh":"伊萨用泥捏成了什么形状？","q_en":"What shape did Isa form from clay?","opts_zh":["小鸟","小马","小人"],"opts_en":["A little bird","A horse","A person"],"answer":0},{"q_zh":"泥捏的小鸟怎样变成了真鸟？","q_en":"How did the clay bird become a real bird?","opts_zh":["他吹了一口气，小鸟在圣光中变成真鸟飞走","它自己长大了","被风吹走了"],"opts_en":["He breathed into it, and it became a real bird in the holy light and flew away","It grew up by itself","The wind blew it away"],"answer":0},{"q_zh":"门徒们请求伊萨做什么？","q_en":"What did the disciples ask Isa for?","opts_zh":["求真主从天上降下筵席","要金银财宝","为他们治病"],"opts_en":["To ask Allah to send down a table spread from heaven","Gold and silver","Healing"],"answer":0}]};
+  var riddleData = [{"a_en":"Prophet Yunus","a_zh":"尤努斯圣人","q_en":"Which prophet was swallowed by a big fish?","q_zh":"哪一位先知被大鱼吞进了肚子？"},{"a_en":"Adam","a_zh":"阿丹","q_en":"Who was the first human being?","q_zh":"第一位人类是谁？"},{"a_en":"Five times","a_zh":"五次","q_en":"How many times do Muslims pray every day?","q_zh":"穆斯林每天礼几次拜？"},{"a_en":"Ramadan","a_zh":"斋月","q_en":"In which month do Muslims fast?","q_zh":"哪个月穆斯林要封斋？"},{"a_en":"Makkah","a_zh":"麦加","q_en":"Which city do people go to for Hajj?","q_zh":"朝觐要去哪座城市？"},{"a_en":"Al-Fatiha","a_zh":"开端章","q_en":"What is the first chapter of the Quran called?","q_zh":"古兰经的第一章叫什么？"},{"a_en":"Prophet Nuh","a_zh":"努哈先知","q_en":"Which prophet built the Ark?","q_zh":"哪一位先知建造了方舟？"},{"a_en":"Makkah","a_zh":"麦加","q_en":"In which city was Prophet Muhammad born?","q_zh":"穆圣出生在哪座城市？"},{"a_en":"The morning prayer (Fajr)","a_zh":"晨礼","q_en":"What is the first prayer of the day?","q_zh":"一天中的第一次拜是什么？"},{"a_en":"Laylat al-Qadr","a_zh":"盖德尔夜","q_en":"Which night is better than a thousand months?","q_zh":"哪个夜晚贵过一千个月？"}];
+  var namesData = [{"id":1,"ar":"الله","translit":"Allah","zh":"安拉","en":"Allah"},{"ar":"الرحمن","en":"The Most Gracious","id":2,"translit":"Ar-Rahman","zh":"至仁的"},{"ar":"الرحيم","en":"The Most Merciful","id":3,"translit":"Ar-Rahim","zh":"至慈的"},{"ar":"الملك","en":"The King","id":4,"translit":"Al-Malik","zh":"君主的"},{"ar":"القدوس","en":"The Most Holy","id":5,"translit":"Al-Quddus","zh":"圣洁的"},{"ar":"السلام","en":"The Source of Peace","id":6,"translit":"As-Salam","zh":"和平的"},{"ar":"المؤمن","en":"The Giver of Faith","id":7,"translit":"Al-Mu'min","zh":"赐安的"},{"ar":"المهيمن","en":"The Guardian","id":8,"translit":"Al-Muhaymin","zh":"监护的"},{"ar":"العزيز","en":"The Almighty","id":9,"translit":"Al-Aziz","zh":"万能的"},{"ar":"الجبار","en":"The Compeller","id":10,"translit":"Al-Jabbar","zh":"强制的"},{"ar":"المتكبر","en":"The Supreme","id":11,"translit":"Al-Mutakabbir","zh":"尊大的"},{"ar":"الخالق","en":"The Creator","id":12,"translit":"Al-Khaliq","zh":"创造的"},{"ar":"البارئ","en":"The Originator","id":13,"translit":"Al-Bari","zh":"造化的"},{"ar":"المصور","en":"The Fashioner","id":14,"translit":"Al-Musawwir","zh":"赋形的"},{"ar":"الغفار","en":"The Great Forgiver","id":15,"translit":"Al-Ghaffar","zh":"至赦的"},{"ar":"القهار","en":"The Irresistible","id":16,"translit":"Al-Qahhar","zh":"独尊的"},{"ar":"الوهاب","en":"The Bestower","id":17,"translit":"Al-Wahhab","zh":"博施的"},{"ar":"الرزاق","en":"The Provider","id":18,"translit":"Ar-Razzaq","zh":"给养的"},{"ar":"الفتاح","en":"The Opener","id":19,"translit":"Al-Fattah","zh":"开解的"},{"ar":"العليم","en":"The All-Knowing","id":20,"translit":"Al-Alim","zh":"全知的"},{"ar":"القابض","en":"The Withholder","id":21,"translit":"Al-Qabid","zh":"收缩的"},{"ar":"الباسط","en":"The Extender","id":22,"translit":"Al-Basit","zh":"舒展的"},{"ar":"الخافض","en":"The Abaser","id":23,"translit":"Al-Khafid","zh":"降低的"},{"ar":"الرافع","en":"The Exalter","id":24,"translit":"Ar-Rafi","zh":"升高的"},{"ar":"المعز","en":"The Giver of Honor","id":25,"translit":"Al-Mu'izz","zh":"赐荣的"},{"ar":"المذل","en":"The Giver of Dishonor","id":26,"translit":"Al-Mudhill","zh":"赐辱的"},{"ar":"السميع","en":"The All-Hearing","id":27,"translit":"As-Sami","zh":"全聪的"},{"ar":"البصير","en":"The All-Seeing","id":28,"translit":"Al-Basir","zh":"明察的"},{"ar":"الحكم","en":"The Judge","id":29,"translit":"Al-Hakam","zh":"裁决的"},{"ar":"العدل","en":"The Just","id":30,"translit":"Al-Adl","zh":"公正的"},{"ar":"اللطيف","en":"The Subtle","id":31,"translit":"Al-Latif","zh":"温柔的"},{"ar":"الخبير","en":"The All-Aware","id":32,"translit":"Al-Khabir","zh":"彻知的"},{"ar":"الحليم","en":"The Forbearing","id":33,"translit":"Al-Halim","zh":"宽容的"},{"ar":"العظيم","en":"The Magnificent","id":34,"translit":"Al-Azim","zh":"伟大的"},{"ar":"الغفور","en":"The All-Forgiving","id":35,"translit":"Al-Ghafur","zh":"至宥的"},{"ar":"الشكور","en":"The Appreciative","id":36,"translit":"Ash-Shakur","zh":"善报的"},{"ar":"العلي","en":"The Most High","id":37,"translit":"Al-Ali","zh":"至高的"},{"ar":"الكبير","en":"The Most Great","id":38,"translit":"Al-Kabir","zh":"至大的"},{"ar":"الحفيظ","en":"The Preserver","id":39,"translit":"Al-Hafiz","zh":"保护的"},{"ar":"المقيت","en":"The Sustainer","id":40,"translit":"Al-Muqit","zh":"供给的"},{"ar":"الحسيب","en":"The Reckoner","id":41,"translit":"Al-Hasib","zh":"清算的"},{"ar":"الجليل","en":"The Majestic","id":42,"translit":"Al-Jalil","zh":"威严的"},{"ar":"الكريم","en":"The Generous","id":43,"translit":"Al-Karim","zh":"慷慨的"},{"ar":"الرقيب","en":"The Watchful","id":44,"translit":"Ar-Raqib","zh":"监视的"},{"ar":"المجيب","en":"The Responsive","id":45,"translit":"Al-Mujib","zh":"应答的"},{"ar":"الواسع","en":"The All-Encompassing","id":46,"translit":"Al-Wasi","zh":"广大的"},{"ar":"الحكيم","en":"The All-Wise","id":47,"translit":"Al-Hakim","zh":"至睿的"},{"ar":"الودود","en":"The Most Loving","id":48,"translit":"Al-Wadud","zh":"慈爱的"},{"ar":"المجيد","en":"The Most Glorious","id":49,"translit":"Al-Majid","zh":"荣耀的"},{"ar":"الباعث","en":"The Resurrector","id":50,"translit":"Al-Ba'ith","zh":"复活的"},{"ar":"الشهيد","en":"The Witness","id":51,"translit":"Ash-Shahid","zh":"见证的"},{"ar":"الحق","en":"The Truth","id":52,"translit":"Al-Haqq","zh":"真实的"},{"ar":"الوكيل","en":"The Trustee","id":53,"translit":"Al-Wakil","zh":"信托的"},{"ar":"القوي","en":"The Strong","id":54,"translit":"Al-Qawiyy","zh":"至强的"},{"ar":"المتين","en":"The Firm","id":55,"translit":"Al-Matin","zh":"坚定的"},{"ar":"الولي","en":"The Protecting Friend","id":56,"translit":"Al-Wali","zh":"护佑的"},{"ar":"الحميد","en":"The Praiseworthy","id":57,"translit":"Al-Hamid","zh":"可颂的"},{"ar":"المحصي","en":"The Counter","id":58,"translit":"Al-Muhsi","zh":"统计的"},{"ar":"المبدئ","en":"The Initiator","id":59,"translit":"Al-Mubdi","zh":"首创的"},{"ar":"المعيد","en":"The Restorer","id":60,"translit":"Al-Mu'id","zh":"复造的"},{"ar":"المحيي","en":"The Giver of Life","id":61,"translit":"Al-Muhyi","zh":"赋生的"},{"ar":"المميت","en":"The Bringer of Death","id":62,"translit":"Al-Mumit","zh":"致死的"},{"ar":"الحي","en":"The Ever-Living","id":63,"translit":"Al-Hayy","zh":"永生的"},{"ar":"القيوم","en":"The Self-Subsisting","id":64,"translit":"Al-Qayyum","zh":"自立的"},{"ar":"الواجد","en":"The Perceiver","id":65,"translit":"Al-Wajid","zh":"丰富的"},{"ar":"الماجد","en":"The Illustrious","id":66,"translit":"Al-Majid","zh":"尊贵的"},{"ar":"الواحد","en":"The One","id":67,"translit":"Al-Wahid","zh":"独一的"},{"ar":"الصمد","en":"The Eternal","id":68,"translit":"As-Samad","zh":"永恒的"},{"ar":"القادر","en":"The Capable","id":69,"translit":"Al-Qadir","zh":"全能的"},{"ar":"المقتدر","en":"The Powerful","id":70,"translit":"Al-Muqtadir","zh":"至能的"},{"ar":"المقدم","en":"The Expediter","id":71,"translit":"Al-Muqaddim","zh":"提前的"},{"ar":"المؤخر","en":"The Delayer","id":72,"translit":"Al-Mu'akhkhir","zh":"延后的"},{"ar":"الأول","en":"The First","id":73,"translit":"Al-Awwal","zh":"最初的"},{"ar":"الآخر","en":"The Last","id":74,"translit":"Al-Akhir","zh":"最后的"},{"ar":"الظاهر","en":"The Manifest","id":75,"translit":"Az-Zahir","zh":"明显的"},{"ar":"الباطن","en":"The Hidden","id":76,"translit":"Al-Batin","zh":"隐微的"},{"ar":"الوالي","en":"The Governor","id":77,"translit":"Al-Wali","zh":"治理的"},{"ar":"المتعالي","en":"The Most Exalted","id":78,"translit":"Al-Muta'ali","zh":"崇高的"},{"ar":"البر","en":"The Source of Goodness","id":79,"translit":"Al-Barr","zh":"至善的"},{"ar":"التواب","en":"The Acceptor of Repentance","id":80,"translit":"At-Tawwab","zh":"纳悔的"},{"ar":"المنتقم","en":"The Avenger","id":81,"translit":"Al-Muntaqim","zh":"报应的"},{"ar":"العفو","en":"The Pardoner","id":82,"translit":"Al-Afuww","zh":"至宽的"},{"ar":"الرؤوف","en":"The Most Kind","id":83,"translit":"Ar-Ra'uf","zh":"怜悯的"},{"ar":"مالك الملك","en":"Master of the Kingdom","id":84,"translit":"Malik al-Mulk","zh":"权柄的主"},{"ar":"ذو الجلال والإكرام","en":"Lord of Majesty and Honor","id":85,"translit":"Dhul-Jalali wal-Ikram","zh":"威严与荣耀的主"},{"ar":"المقسط","en":"The Equitable","id":86,"translit":"Al-Muqsit","zh":"公平的"},{"ar":"الجامع","en":"The Gatherer","id":87,"translit":"Al-Jami","zh":"聚集的"},{"ar":"الغني","en":"The Self-Sufficient","id":88,"translit":"Al-Ghani","zh":"富足的"},{"ar":"المغني","en":"The Enricher","id":89,"translit":"Al-Mughni","zh":"使富的"},{"ar":"المانع","en":"The Preventer","id":90,"translit":"Al-Mani","zh":"阻止的"},{"ar":"الضار","en":"The Distresser","id":91,"translit":"Ad-Darr","zh":"加害的"},{"ar":"النافع","en":"The Benefactor","id":92,"translit":"An-Nafi","zh":"施益的"},{"ar":"النور","en":"The Light","id":93,"translit":"An-Nur","zh":"光明的"},{"ar":"الهادي","en":"The Guide","id":94,"translit":"Al-Hadi","zh":"引导的"},{"ar":"البديع","en":"The Incomparable","id":95,"translit":"Al-Badi","zh":"创新的"},{"ar":"الباقي","en":"The Everlasting","id":96,"translit":"Al-Baqi","zh":"永存的"},{"ar":"الوارث","en":"The Inheritor","id":97,"translit":"Al-Warith","zh":"继承的"},{"ar":"الرشيد","en":"The Guide to the Right Path","id":98,"translit":"Ar-Rashid","zh":"正道的"},{"ar":"الصبور","en":"The Patient","id":99,"translit":"As-Sabur","zh":"坚忍的"}];
+  var prayerData = [{"arabic":"—","en":"Wash yourself clean first: hands, mouth, face, arms, head and feet.","step":1,"title_en":"Wudu","title_zh":"小净","zh":"先洗干净：洗手、漱口、洗脸、手臂、头部和脚。"},{"arabic":"—","en":"Make the intention in your heart: I am praying for Allah.","step":2,"title_en":"Intention","title_zh":"举意","zh":"心里想好：我是为真主礼拜。"},{"arabic":"الله أكبر","en":"Allah is the Greatest.","step":3,"title_en":"Takbir","title_zh":"大赞词","zh":"抬手念“真主至大”，然后双手抱在胸前。"},{"arabic":"سورة الفاتحة","en":"Recite Al-Fatiha while standing.","link":"memorize","step":4,"title_en":"Standing recitation","title_zh":"站立诵读","zh":"站立，诵读开端章。可以去「背诵小短章」里学。"},{"arabic":"سبحان ربي العظيم","en":"Glory be to my Lord, the Most Great. (3 times)","step":5,"title_en":"Bowing (Ruku)","title_zh":"鞠躬","zh":"弯腰鞠躬，念三遍：赞颂我的主至大。","zh_meaning":"赞颂我的主至大"},{"arabic":"سمع الله لمن حمده … ربنا ولك الحمد","en":"Allah hears those who praise Him … Our Lord, to You is all praise.","step":6,"title_en":"Rising from bowing","title_zh":"起身","zh":"起身站直，念：真主听到了赞颂他的人……我们的主，一切赞颂归于你。"},{"arabic":"سبحان ربي الأعلى","en":"Glory be to my Lord, the Most High. (3 times)","step":7,"title_en":"Prostration (Sujud)","title_zh":"叩头","zh":"跪下叩头，念三遍：赞颂我的主至高。","zh_meaning":"赞颂我的主至高"},{"arabic":"التحيات لله … أشهد أن لا إله إلا الله وأشهد أن محمدا عبده ورسوله","en":"Greetings to Allah … I bear witness that there is no deity but Allah, and Muhammad is His servant and Messenger.","step":8,"title_en":"Sitting (Tashahhud)","title_zh":"跪坐念作证词","zh":"跪坐，念作证词：我作证除真主外绝无应受崇拜者，我作证穆罕默德是真主的仆人和使者。"},{"arabic":"السلام عليكم ورحمة الله","en":"Peace and Allah's mercy be upon you. (turn head right, then left)","step":9,"title_en":"Taslim","title_zh":"出赛俩目","zh":"先向右、再向左转头说：愿真主的平安和慈悯降临你们。礼拜完成！"}];
+  var surahData = [{"arabic":"بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ۝ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝ الرَّحْمَنِ الرَّحِيمِ ۝ مَالِكِ يَوْمِ الدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ۝ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ۝ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ","en":"In the name of Allah, the Entirely Merciful, the Especially Merciful. All praise is due to Allah, Lord of the worlds. The Entirely Merciful, the Especially Merciful. Sovereign of the Day of Recompense. It is You we worship and You we ask for help. Guide us along the Straight Path. The path of those upon whom You have bestowed favor, not of those who have evoked Your anger or of those who are astray.","id":"fatiha","title_en":"Al-Fatiha","title_zh":"开端章","verses":7,"zh":"奉至仁至慈的真主之名。一切赞颂，全归真主，全世界的主，至仁至慈的主，报应日的主。我们只崇拜你，只求你佑助，求你引导我们上正路，你所佑助者的路，不是受谴怒者的路，也不是迷误者的路。"},{"arabic":"قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ","en":"Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, nor is there to Him any equivalent.","id":"ikhlas","title_en":"Al-Ikhlas","title_zh":"忠诚章","verses":4,"zh":"你说：他是真主，是独一的主；真主是万物所仰赖的；他没有生产，也没有被生产；没有任何物可以做他的匹敌。"},{"arabic":"قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ","en":"Say: I seek refuge with the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies.","id":"falaq","title_en":"Al-Falaq","title_zh":"曙光章","verses":5,"zh":"你说：我求庇于曙光的主，免遭他所创造者的毒害；免遭黑夜笼罩时的毒害；免遭吹破坚决的主意者的毒害；免遭嫉妒者嫉妒时的毒害。"},{"arabic":"قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ","en":"Say: I seek refuge with the Lord of mankind, the King of mankind, the God of mankind, from the evil of the retreating whisperer, who whispers into the breasts of mankind, from among jinn and mankind.","id":"nas","title_en":"An-Nas","title_zh":"世人章","verses":6,"zh":"你说：我求庇于世人的主宰，世人的国王，世人的神灵，免遭潜伏的教唆者的毒害；他在世人的胸中教唆，他是属于精灵和人类的。"},{"arabic":"إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ۝ فَصَلِّ لِرَبِّكَ وَانْحَرْ ۝ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ","en":"Indeed, We have granted you al-Kawthar. So pray to your Lord and sacrifice. Indeed, your enemy is the one cut off.","id":"kawthar","title_en":"Al-Kawthar","title_zh":"多福章","verses":3,"zh":"我确已赐你多福，故你当为你的主而礼拜，并宰牲。怨恨你的，确是断绝后嗣的。"},{"arabic":"وَالْعَصْرِ ۝ إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ","en":"By time, indeed, mankind is in loss, except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.","id":"asr","title_en":"Al-Asr","title_zh":"时光章","verses":3,"zh":"以时光盟誓，一切人确在亏折之中，惟信道而且行善，并以真理相劝，以坚忍相勉的人则不然。"},{"arabic":"إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ ۝ وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ إِنَّهُ كَانَ تَوَّابًا","en":"When the victory of Allah has come and the conquest, and you see the people entering into the religion of Allah in multitudes, then exalt Him with praise of your Lord and ask forgiveness of Him. Indeed, He is ever Accepting of repentance.","id":"nasr","title_en":"An-Nasr","title_zh":"援助章","verses":3,"zh":"当真主的援助和胜利降临，而你看见众人成群结队地归信真主的宗教时，你应当赞颂你的主超绝万物，并向他求饶，他确是至宥的。"}];
+  var timelineData = [{"en":"Adam","episode":"ep01","id":1,"zh":"阿丹"},{"en":"Idris","episode":"ep03","id":2,"zh":"伊德里斯"},{"en":"Nuh","episode":"ep04","id":3,"zh":"努哈"},{"en":"Hud","episode":"ep05","id":4,"zh":"呼德"},{"en":"Salih","episode":"ep06","id":5,"zh":"萨利赫"},{"en":"Ibrahim","episode":"ep07","id":6,"zh":"易卜拉欣"},{"en":"Lut","episode":null,"id":7,"zh":"鲁特"},{"en":"Ismail","episode":null,"id":8,"zh":"易司马仪"},{"en":"Ishaq","episode":null,"id":9,"zh":"易司哈格"},{"en":"Yaqub","episode":null,"id":10,"zh":"叶尔孤白"},{"en":"Yusuf","episode":"ep08","id":11,"zh":"优素福"},{"en":"Shuayb","episode":"ep10","id":12,"zh":"舒阿卜"},{"en":"Ayyub","episode":null,"id":13,"zh":"安优卜"},{"en":"Dhul-Kifl","episode":null,"id":14,"zh":"祖勒基弗勒"},{"en":"Musa","episode":"ep11","id":15,"zh":"穆萨"},{"en":"Harun","episode":null,"id":16,"zh":"哈伦"},{"en":"Dawud","episode":"ep14","id":17,"zh":"达乌德"},{"en":"Sulayman","episode":"ep15","id":18,"zh":"苏莱曼"},{"en":"Ilyas","episode":"ep17","id":19,"zh":"易勒雅斯"},{"en":"Alyasa","episode":"ep18","id":20,"zh":"以利沙"},{"en":"Yunus","episode":"ep19","id":21,"zh":"尤努斯"},{"en":"Zakariyya","episode":"ep20","id":22,"zh":"宰凯里雅"},{"en":"Yahya","episode":"ep21","id":23,"zh":"叶哈雅"},{"en":"Isa","episode":"ep22","id":24,"zh":"尔撒"},{"en":"Muhammad","episode":"ep24","id":25,"zh":"穆哈穆德"}];
+  var festivalData = [
+    {id:'ramadan',kickerZh:'斋月 · 学习自律与感恩',kickerEn:'Ramadan · Self-discipline and gratitude',titleZh:'尊贵的斋月',titleEn:'The blessed month of Ramadan',arabic:'رَمَضَان',bodyZh:'斋月是《古兰经》开始降示的月份。穆斯林在这个月封斋、礼拜、读《古兰经》并多行善；《古兰经》也提醒我们，真主意欲便利，不意欲困难。',bodyEn:'Ramadan is the month in which the Quran was revealed. Muslims fast, pray, read the Quran and do more good; the Quran also reminds us that Allah intends ease, not hardship.',lessonsZh:['跟家人学习封斋的意义','多读《古兰经》，记得感恩','关心饥饿和需要帮助的人'],lessonsEn:['Learn the meaning of fasting with your family','Read more Quran and practice gratitude','Care for people who are hungry or in need'],sourceZh:'《古兰经》2:185',sourceEn:'Quran 2:185',url:'https://islamicstudies.info/reference.php?sura=2&verse=185'},
+    {id:'fitr',kickerZh:'开斋节 · 感恩与分享',kickerEn:'Eid al-Fitr · Gratitude and sharing',titleZh:'开斋节',titleEn:'Eid al-Fitr',arabic:'عِيدُ الْفِطْر',bodyZh:'开斋节标志着斋月结束。穆斯林参加节日礼拜、与家人团聚、互道祝福，也在节日礼拜前完成开斋捐，让有需要的人一同欢喜。',bodyEn:'Eid al-Fitr marks the end of Ramadan. Muslims attend the Eid prayer, gather with loved ones, exchange good wishes, and give Zakat al-Fitr before the prayer so people in need can share the joy.',lessonsZh:['说“节日吉庆”：Eid Mubarak','穿整洁衣服参加节日礼拜','分享食物、礼物和喜悦'],lessonsEn:['Say “Eid Mubarak”','Wear clean, special clothes for Eid prayer','Share food, gifts and joy'],sourceZh:'Islamic Relief Canada',sourceEn:'Islamic Relief Canada',url:'https://www.islamicreliefcanada.org/giving/ramadan/what-is-eid-al-fitr'},
+    {id:'adha',kickerZh:'宰牲节 · 信靠与关怀',kickerEn:'Eid al-Adha · Faith and care',titleZh:'宰牲节',titleEn:'Eid al-Adha',arabic:'عِيدُ الْأَضْحَى',bodyZh:'宰牲节在伊斯兰历十二月——朝觐月的第十日，纪念易卜拉欣圣人对真主的服从。节日礼拜后，有能力的家庭宰牲，并把一部分肉送给有需要的人。',bodyEn:'Eid al-Adha falls on the tenth of Dhul Hijjah, the final month of the Islamic calendar, and remembers Prophet Ibrahim’s obedience to Allah. After Eid prayer, families who are able offer Qurbani and share with people in need.',lessonsZh:['记住易卜拉欣圣人的信靠','参加节日礼拜并感谢真主','把好东西分享给别人'],lessonsEn:['Remember Prophet Ibrahim’s trust in Allah','Attend Eid prayer and thank Allah','Share good things with others'],sourceZh:'Islamic Relief Canada',sourceEn:'Islamic Relief Canada',url:'https://www.islamicreliefcanada.org/giving/islamic-giving/qurbani/eid-al-adha'},
+    {id:'jumuah',kickerZh:'每周五 · 一起记念真主',kickerEn:'Every Friday · Remember Allah together',titleZh:'主麻聚礼',titleEn:'Jumu’ah Prayer',arabic:'صَلَاةُ الْجُمُعَة',bodyZh:'星期五是穆斯林共同聚礼的日子。《古兰经》教导信士：听到星期五礼拜的召唤时，要前往记念真主，放下买卖。孩子可以跟随家人学习安静聆听和礼拜礼仪。',bodyEn:'Friday is the weekly day of congregational prayer. The Quran teaches believers to proceed to the remembrance of Allah and leave trade when the call to Friday prayer is made. Children can join their family and learn to listen quietly and follow prayer manners.',lessonsZh:['提前准备，穿干净整洁的衣服','安静听呼图白（讲演）','跟随大家礼拜、互道赛俩目'],lessonsEn:['Prepare early and wear clean clothes','Listen quietly to the khutbah','Pray with the congregation and share salaam'],sourceZh:'《古兰经》62:9',sourceEn:'Quran 62:9',url:'https://legacy.quran.com/62/9'}
+  ];
+  var copy = {
+    zh:{appName:'圣人故事儿童集',heroText:'在温柔的光影里，和孩子一起聆听信仰与成长的故事，学习诚实、忍耐、勇气与信靠。',categories:'故事分类',categoriesSub:'选择想要探索的故事',catProphets:'先知故事',catHadith:'圣训故事',catQuran:'古兰经故事',catChildren:'儿童故事',upcoming:'即将推出',upcomingBody:'这个分类正在准备中，敬请期待。',featured:'穆哈穆德三部曲',featuredSub:'从童年、启示到使命完成',episodes:'全部故事',episodeCount:'完整 26 集 · 中英双语配音',home:'故事',about:'关于',aboutTitle:'让信仰的故事，陪伴童年',aboutLead:'用适合孩子的画面与叙述，分享先知故事中的智慧、品德与希望。',languageTitle:'一个 App，多语同行',languageBody:'界面可在简体中文与 English 之间切换。每日祈祷求护词同时展示阿语原文、中文与 English 翻译；26 集视频均可切换中文与 English 配音，并配有 English 字幕。',duaNav:'祈祷词',duaTitle:'每日祈祷求护词',duaLead:'阿语原文、中文与 English 翻译，陪伴每天的清晨与夜晚。',sunnahNav:'圣行',sunnahTitle:'每日圣行',sunnahLead:'从起床到睡前，把穆圣教导的美好习惯带进孩子的每一天。',sunnahCount:'共 {n} 条 · 点开学习三语内容',moment:'适用时刻',morning:'清晨',evening:'夜晚',duaCount:'共 {n} 条 · 点开阅读三语全文',arabic:'阿语原文',chinese:'中文',english:'English',listenArabic:'听阿语',listenChinese:'听中文',listenEnglish:'听 English',stopReading:'停止朗读',recite:'念诵',source:'来源',studio:'祖丽哈尔工作坊',country:'加拿大 🇨🇦',episode:'第 {n} 集',play:'播放',next:'播放下一集',audio:'可切换中文或 English 配音；English 模式会显示英文字幕。',audioChinese:'中文配音',audioEnglish:'English',audioGroup:'配音语言',trilogy:'三部曲'},
+    en:{appName:'Prophet Stories for Children',heroText:'Listen together through gentle stories of faith and growth, discovering honesty, patience, courage and trust.',categories:'Story categories',categoriesSub:'Choose a collection to explore',catProphets:'Prophet Stories',catHadith:'Hadith Stories',catQuran:'Quran Stories',catChildren:"Children’s Stories",upcoming:'Coming soon',upcomingBody:'This story collection is being prepared. Please check back soon.',featured:'The Muhammad Trilogy',featuredSub:'From childhood and revelation to the mission fulfilled',episodes:'All stories',episodeCount:'Complete 26-episode collection · Chinese & English audio',home:'Stories',about:'About',aboutTitle:'Stories of faith for growing hearts',aboutLead:'Child-friendly scenes and narration share the wisdom, character and hope within the stories of the Prophets.',languageTitle:'One app, many languages',languageBody:'The interface switches between Simplified Chinese and English. Daily duas show Arabic with Chinese and English translations; all 26 videos include Chinese and English voice tracks with English captions.',duaNav:'Duas',duaTitle:'Daily Dua & Azkar',duaLead:'Arabic text with Chinese and English translations for a mindful morning and evening.',sunnahNav:'Sunnah',sunnahTitle:'Daily Sunnah',sunnahLead:'From waking to bedtime, bring the Prophet’s beautiful teachings into every child’s day.',sunnahCount:'{n} practices · Open each card to learn in three languages',moment:'When',morning:'Morning',evening:'Evening',duaCount:'{n} prayers · Open each card to read all three languages',arabic:'Arabic',chinese:'中文',english:'English',listenArabic:'Hear Arabic',listenChinese:'Hear Chinese',listenEnglish:'Hear English',stopReading:'Stop reading',recite:'Recite',source:'Source',studio:'Zohra Studio · Canada',country:'',episode:'Episode {n}',play:'Play',next:'Play next episode',audio:'Switch between Chinese and English audio; English mode includes English captions.',audioChinese:'中文配音',audioEnglish:'English',audioGroup:'Audio language',trilogy:'Trilogy'}
+  };
+  Object.assign(copy.zh,{about:'我的',playNav:'猜谜',checkinTitle:'今天完成了吗？',checkinHelp:'每天完成祈祷或圣行后打卡，本次体验可获得 10 分。',checkin:'今日打卡 +10',checkedIn:'今天已打卡',riddleTitle:'猜谜语',riddleLead:'先想一想，再翻出谜底。猜中一题得 5 分。',riddlePoints:'谜语得分',revealAnswer:'翻出谜底',guessedRight:'我猜中了 +5',tryNext:'再来一题',riddleStep:'第 {n} / {total} 题',myGrowth:'我的成长',growthLead:'看故事、做小测验、猜谜语、每日打卡，慢慢收集积分与徽章。',points:'积分',badges:'奖励徽章',badgeHelp:'达到积分即可点亮。',favorites:'我的收藏',favoritesHelp:'收藏故事、祈祷词与圣行，方便回来继续看。',reminders:'每日提醒',reminderHelp:'原型仅在本页面保持打开时提供页内提醒。',morningDua:'晨间祈祷',eveningDua:'夜间祈祷',setReminders:'设置本次提醒',sessionNote:'这是静态体验版：收藏、积分、打卡与提醒只保留到本次页面关闭。正式 App 上架时可使用账号或设备数据长期保存。',favorite:'收藏',favorited:'已收藏',sleepTimer:'睡眠定时',timerOff:'关闭',timerSet:'将在 {n} 分钟后停止播放',timerStopped:'定时结束，已停止播放。',quizTitle:'看完小测验',quizProgress:'第 {n} / 3 题',correct:'答对了！+5 分',wrong:'再想一想',emptyFavorites:'还没有收藏内容。',remindersSet:'本次提醒已设置。请保持页面打开。',reminderMorning:'晨间祈祷时间到了',reminderEvening:'夜间祈祷时间到了',badgeStar:'小星星',badgeMoon:'小月亮',badgeSun:'小太阳',badgeGuardian:'荣誉小卫士'});
+  Object.assign(copy.en,{about:'My',playNav:'Riddles',checkinTitle:'Finished for today?',checkinHelp:'Check in after dua or a sunnah practice to earn 10 points in this session.',checkin:'Check in +10',checkedIn:'Checked in today',riddleTitle:'Riddle Time',riddleLead:'Think first, then reveal the answer. A correct guess earns 5 points.',riddlePoints:'Riddle points',revealAnswer:'Reveal answer',guessedRight:'I got it +5',tryNext:'Next riddle',riddleStep:'Riddle {n} of {total}',myGrowth:'My Growth',growthLead:'Watch stories, take quizzes, solve riddles and check in to collect points and badges.',points:'Points',badges:'Reward badges',badgeHelp:'Badges light up when you reach each score.',favorites:'My favorites',favoritesHelp:'Keep stories, duas and sunnah practices together for easy return.',reminders:'Daily reminders',reminderHelp:'This prototype can remind you only while this page stays open.',morningDua:'Morning dua',eveningDua:'Evening dua',setReminders:'Set reminders for this session',sessionNote:'This is a static preview: favorites, points, check-ins and reminders last only until this page closes. The released app can save them with an account or on-device data.',favorite:'Favorite',favorited:'Favorited',sleepTimer:'Sleep timer',timerOff:'Off',timerSet:'Playback will stop in {n} minutes',timerStopped:'Timer finished. Playback stopped.',quizTitle:'Story quiz',quizProgress:'Question {n} of 3',correct:'Correct! +5 points',wrong:'Try once more',emptyFavorites:'No favorites yet.',remindersSet:'Reminders are set for this session. Keep the page open.',reminderMorning:'Time for morning dua',reminderEvening:'Time for evening dua',badgeStar:'Little Star',badgeMoon:'Little Moon',badgeSun:'Little Sun',badgeGuardian:'Honor Guardian'});
+  Object.assign(copy.zh,{learnTitle:'一起学与玩',learnLead:'猜谜、学美名、学礼拜、背短章，也认识斋月、两大节日与每周五的聚礼。',learningPoints:'学习积分',namesTitle:'安拉的美名',prayerTitle:'礼拜小老师',prayerLead:'跟着 9 个步骤学习动作和念词，大字清楚，点击按钮即可听读。',surahsTitle:'背诵小短章',timelineTitle:'先知时间线',learned:'学会了 +5',memorized:'背会了 +10',learnedNames:'已学会 {n} / {total}',memorizedSurahs:'已背会 {n} / {total}',timelineLearned:'已看过 {n} / {total}',previous:'上一个',nextItem:'下一个',listen:'听读',verses:'{n} 节',watch:'观看',comingSoon:'即将推出',markWatched:'标记看过',watched:'已看过',nameSetNote:'素材当前提供 {n} 个美名。',festivalsTitle:'斋月与节日',festivalsHeading:'认识我们的节日与聚礼',festivalsLead:'从斋月到两大节日，再到每周五的聚礼，了解穆斯林共同珍惜的时光。',sourceLearn:'查看学习来源'});
+  Object.assign(copy.en,{learnTitle:'Learn & Play',learnLead:'Solve riddles, learn Allah’s beautiful names, practice prayer, memorize short surahs, and discover Ramadan, both Eids and Friday prayer.',learningPoints:'Learning points',namesTitle:'Beautiful Names of Allah',prayerTitle:'Prayer Teacher',prayerLead:'Follow 9 clear, large-print steps and tap the big button to hear each recitation.',surahsTitle:'Memorize Short Surahs',timelineTitle:'Prophets Timeline',learned:'I learned it +5',memorized:'Memorized +10',learnedNames:'Learned {n} of {total}',memorizedSurahs:'Memorized {n} of {total}',timelineLearned:'Watched {n} of {total}',previous:'Previous',nextItem:'Next',listen:'Listen',verses:'{n} verses',watch:'Watch',comingSoon:'Coming soon',markWatched:'Mark watched',watched:'Watched',nameSetNote:'The supplied collection currently contains {n} names.',festivalsTitle:'Ramadan & Eid',festivalsHeading:'Our festivals and Friday prayer',festivalsLead:'Learn about Ramadan, the two Eids, and the Friday prayer that Muslims cherish together each week.',sourceLearn:'Open learning source'});
+  var lang = 'zh';
+  var currentIndex = 0;
+  var grid = document.getElementById('episodeGrid');
+  var featuredGrid = document.getElementById('featuredGrid');
+  var overlay = document.getElementById('playerOverlay');
+  var player = document.getElementById('videoPlayer');
+  var englishAudio = document.getElementById('englishAudio');
+  var englishCaptions = document.getElementById('englishCaptions');
+  var videoStatus = document.getElementById('videoStatus');
+  var videoStatusText = document.getElementById('videoStatusText');
+  var videoSpinner = document.getElementById('videoSpinner');
+  var videoStart = document.getElementById('videoStart');
+  var videoObjectUrl = null;
+  var videoLoadToken = 0;
+  var videoState = 'idle';
+  var playbackLanguage = 'zh';
+  var useSidecarAudio = false;
+  var lastFocus = null;
+  var currentDuaTime = 'morning';
+  var activeSpeechButton = null;
+  var score = 0;
+  var checkedIn = false;
+  var favorites = {};
+  var quizAnswered = {};
+  var riddleAnswered = {};
+  var riddleIndex = 0;
+  var riddlePoints = 0;
+  var quizIndex = 0;
+  var sleepTimerId = null;
+  var toastTimerId = null;
+  var reminderTimes = {morning:'07:00',evening:'20:00'};
+  var reminderSeen = {};
+  var learnedNames = {};
+  var memorizedSurahs = {};
+  var watchedProphets = {};
+  var nameIndex = 0;
+  var activeLearnModule = 'riddles';
+
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, function(ch) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]; });
+  }
+  function eLabel(n) { return copy[lang].episode.replace('{n}', n); }
+  function speechLabel(code) {
+    return code === 'ar' ? copy[lang].listenArabic : (code === 'zh' ? copy[lang].listenChinese : copy[lang].listenEnglish);
+  }
+  function stopSpeech() {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (activeSpeechButton && activeSpeechButton.isConnected) {
+      activeSpeechButton.setAttribute('aria-pressed','false');
+      activeSpeechButton.querySelector('span').textContent = activeSpeechButton.getAttribute('data-reset-label') || speechLabel(activeSpeechButton.getAttribute('data-speak-lang'));
+    }
+    activeSpeechButton = null;
+  }
+  function speakDua(button) {
+    var statusId = button.closest('#sunnahList') ? 'sunnahSpeechStatus' : 'speechStatus';
+    if (!('speechSynthesis' in window)) {
+      document.getElementById(statusId).textContent = lang === 'zh' ? '此设备暂不支持听读。' : 'Read aloud is not supported on this device.';
+      return;
+    }
+    if (activeSpeechButton === button && window.speechSynthesis.speaking) {
+      stopSpeech();
+      document.getElementById(statusId).textContent = '';
+      return;
+    }
+    stopSpeech();
+    var id = button.getAttribute('data-speak-id');
+    var code = button.getAttribute('data-speak-lang');
+    var item = duaData.items.concat(sunnahData.items).filter(function(entry){ return entry.id === id; })[0];
+    if (!item) return;
+    var text = code === 'ar' ? item.arabic : (code === 'zh' ? item.zh : item.en);
+    var voiceLang = code === 'ar' ? 'ar-SA' : (code === 'zh' ? 'zh-CN' : 'en-US');
+    var utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = voiceLang;
+    utterance.rate = code === 'ar' ? .82 : .9;
+    var voices = window.speechSynthesis.getVoices();
+    var prefix = voiceLang.slice(0,2).toLowerCase();
+    var matchingVoice = voices.filter(function(voice){ return voice.lang.toLowerCase().slice(0,2) === prefix; })[0];
+    if (matchingVoice) utterance.voice = matchingVoice;
+    activeSpeechButton = button;
+    button.setAttribute('aria-pressed','true');
+    button.querySelector('span').textContent = copy[lang].stopReading;
+    document.getElementById(statusId).textContent = '';
+    utterance.onend = stopSpeech;
+    utterance.onerror = function(){
+      stopSpeech();
+      document.getElementById(statusId).textContent = lang === 'zh' ? '这次朗读没有成功，请再试一次。' : 'Read aloud could not start. Please try again.';
+    };
+    window.speechSynthesis.speak(utterance);
+  }
+  function renderDuas() {
+    stopSpeech();
+    var ids = duaData.sections[currentDuaTime];
+    var byId = {};
+    duaData.items.forEach(function(item){ byId[item.id] = item; });
+    document.getElementById('duaCount').textContent = copy[lang].duaCount.replace('{n}', ids.length);
+    document.getElementById('duaList').innerHTML = ids.map(function(id){
+      var item = byId[id];
+      var title = lang === 'zh' ? item.title_zh : item.title_en;
+      var source = lang === 'zh' ? item.source_zh : item.source_en;
+      var repeat = lang === 'zh' ? item.repeat_zh : item.repeat_en;
+      var speakerIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9.5a4 4 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/></svg>';
+      return '<details class="dua-card"><summary><span><span class="dua-title">'+esc(title)+'</span><span class="dua-subtitle">'+esc(source)+' · '+esc(repeat)+'</span></span></summary><div class="dua-body">'+
+        '<div class="listen-row" aria-label="'+esc(lang === 'zh' ? '听读语言' : 'Read aloud language')+'">'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="ar" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenArabic)+'</span></button>'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="zh" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenChinese)+'</span></button>'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="en" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenEnglish)+'</span></button></div>'+
+        '<div class="dua-arabic" lang="ar" dir="rtl">'+esc(item.arabic)+'</div><div class="dua-translation">'+
+        '<div class="dua-lang"><b>'+esc(copy[lang].chinese)+'</b><p lang="zh-CN">'+esc(item.zh)+'</p></div>'+
+        '<div class="dua-lang"><b>'+esc(copy[lang].english)+'</b><p lang="en">'+esc(item.en)+'</p></div></div>'+
+        '<div class="listen-row"><button class="favorite-content-btn" type="button" data-favorite-key="dua:'+esc(item.id)+'" data-favorite-label="'+esc(title)+'" aria-pressed="'+(favorites['dua:'+item.id]?'true':'false')+'"><span aria-hidden="true">'+(favorites['dua:'+item.id]?'♥':'♡')+'</span><span>'+esc(favorites['dua:'+item.id]?copy[lang].favorited:copy[lang].favorite)+'</span></button></div>'+
+        '<div class="dua-meta"><span class="dua-pill">'+esc(copy[lang].recite)+' · '+esc(repeat)+'</span><span class="dua-pill">'+esc(copy[lang].source)+' · '+esc(source)+'</span></div></div></details>';
+    }).join('');
+  }
+  function renderSunnahs() {
+    stopSpeech();
+    document.getElementById('sunnahCount').textContent = copy[lang].sunnahCount.replace('{n}', sunnahData.items.length);
+    document.getElementById('sunnahList').innerHTML = sunnahData.items.map(function(item){
+      var title = lang === 'zh' ? item.title_zh : item.title_en;
+      var moment = lang === 'zh' ? item.moment_zh : item.moment_en;
+      var source = lang === 'zh' ? item.source_zh : item.source_en;
+      var speakerIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9.5a4 4 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/></svg>';
+      return '<details class="dua-card"><summary><span><span class="dua-title">'+esc(title)+'</span><span class="sunnah-moment">'+esc(copy[lang].moment)+' · '+esc(moment)+'</span><span class="dua-subtitle">'+esc(source)+'</span></span></summary><div class="dua-body">'+
+        '<div class="listen-row" aria-label="'+esc(lang === 'zh' ? '听读语言' : 'Read aloud language')+'">'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="ar" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenArabic)+'</span></button>'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="zh" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenChinese)+'</span></button>'+
+        '<button class="listen-btn" type="button" data-speak-id="'+esc(item.id)+'" data-speak-lang="en" aria-pressed="false">'+speakerIcon+'<span>'+esc(copy[lang].listenEnglish)+'</span></button></div>'+
+        '<div class="dua-arabic" lang="ar" dir="rtl">'+esc(item.arabic)+'</div><div class="dua-translation">'+
+        '<div class="dua-lang"><b>'+esc(copy[lang].chinese)+'</b><p lang="zh-CN">'+esc(item.zh)+'</p></div>'+
+        '<div class="dua-lang"><b>'+esc(copy[lang].english)+'</b><p lang="en">'+esc(item.en)+'</p></div></div>'+
+        '<div class="listen-row"><button class="favorite-content-btn" type="button" data-favorite-key="sunnah:'+esc(item.id)+'" data-favorite-label="'+esc(title)+'" aria-pressed="'+(favorites['sunnah:'+item.id]?'true':'false')+'"><span aria-hidden="true">'+(favorites['sunnah:'+item.id]?'♥':'♡')+'</span><span>'+esc(favorites['sunnah:'+item.id]?copy[lang].favorited:copy[lang].favorite)+'</span></button></div>'+
+        '<div class="dua-meta"><span class="dua-pill">'+esc(copy[lang].moment)+' · '+esc(moment)+'</span><span class="dua-pill">'+esc(copy[lang].source)+' · '+esc(source)+'</span></div></div></details>';
+    }).join('');
+  }
+  function renderCards() {
+    grid.innerHTML = episodes.map(function(ep, index) {
+      var title = lang === 'zh' ? ep.zh : ep.en;
+      var theme = lang === 'zh' ? ep.themeZh : ep.themeEn;
+      return '<button class="episode-card" type="button" data-index="'+index+'" aria-label="'+copy[lang].play+' '+title+'">'+
+        '<img src="assets/thumbs/'+ep.id+'.jpg" alt="'+title+' '+(lang==='zh'?'故事画面':'story scene')+'" loading="lazy">'+
+        '<span><span class="ep-num">'+eLabel(ep.episode)+'</span><h3>'+title+'</h3><p>'+theme+'</p></span>'+
+        '<span class="play-mark" aria-hidden="true"><svg viewBox="0 0 20 20" fill="currentColor"><path d="m5 3 11 7-11 7V3Z"/></svg></span></button>';
+    }).join('');
+    var featured = episodes.filter(function(ep){ return ep.id === 'ep24' || ep.id === 'ep25' || ep.id === 'ep26'; });
+    featuredGrid.innerHTML = featured.map(function(ep) {
+      var index = episodes.indexOf(ep);
+      var title = lang === 'zh' ? ep.zh : ep.en;
+      return '<button class="feature-card" type="button" data-index="'+index+'" aria-label="'+copy[lang].play+' '+title+'">'+
+        '<img src="assets/thumbs/'+ep.id+'.jpg" alt="'+title+' '+(lang==='zh'?'故事画面':'story scene')+'">'+
+        '<span class="card-copy"><small>'+copy[lang].trilogy+' · '+eLabel(ep.episode)+'</small><strong>'+title+'</strong></span></button>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-index]'), function(btn) {
+      btn.addEventListener('click', function(){ openPlayer(Number(btn.getAttribute('data-index')), btn); });
+    });
+  }
+  function showToast(text) {
+    var toast = document.getElementById('toast');
+    toast.textContent = text; toast.hidden = false;
+    clearTimeout(toastTimerId); toastTimerId = setTimeout(function(){ toast.hidden = true; }, 2400);
+  }
+  function updateScore() {
+    document.getElementById('topScore').textContent = score;
+    document.getElementById('profileScore').textContent = score;
+    document.getElementById('riddleScore').textContent = score;
+    renderDashboard();
+  }
+  function updateCheckinButtons() {
+    Array.prototype.forEach.call(document.querySelectorAll('.checkin-btn'),function(btn){
+      btn.disabled = checkedIn; btn.textContent = checkedIn ? copy[lang].checkedIn : copy[lang].checkin;
+    });
+  }
+  function toggleFavorite(key,label) {
+    if (favorites[key]) delete favorites[key]; else favorites[key] = {label:label,type:key.split(':')[0]};
+    renderDuas(); renderSunnahs(); updatePlayerFavorite(); renderDashboard();
+  }
+  function updatePlayerFavorite() {
+    var btn=document.getElementById('favoriteEpisode'); if (!btn) return;
+    var ep=episodes[currentIndex], key='episode:'+ep.id, active=!!favorites[key];
+    btn.setAttribute('aria-pressed',active?'true':'false');
+    btn.querySelector('span[aria-hidden]').textContent=active?'♥':'♡';
+    btn.querySelector('[data-i18n]').textContent=active?copy[lang].favorited:copy[lang].favorite;
+  }
+  function renderDashboard() {
+    var badges=[{n:100,k:'badgeStar'},{n:300,k:'badgeMoon'},{n:600,k:'badgeSun'},{n:1000,k:'badgeGuardian'}];
+    var wall=document.getElementById('badgeWall');
+    if(wall) wall.innerHTML=badges.map(function(b){return '<div class="badge '+(score>=b.n?'unlocked':'')+'"><b>'+esc(copy[lang][b.k])+'</b><span>'+b.n+' '+esc(copy[lang].points)+'</span></div>';}).join('');
+    var list=document.getElementById('favoriteList');
+    if(list){var keys=Object.keys(favorites);list.innerHTML=keys.length?keys.map(function(key){return '<div class="favorite-row"><span>'+esc(favorites[key].label)+'</span><button type="button" data-remove-favorite="'+esc(key)+'" aria-label="Remove">×</button></div>';}).join(''):'<p class="empty-note">'+esc(copy[lang].emptyFavorites)+'</p>';}
+  }
+  function renderRiddle() {
+    var item=riddleData[riddleIndex];
+    document.getElementById('riddleStep').textContent=copy[lang].riddleStep.replace('{n}',riddleIndex+1).replace('{total}',riddleData.length);
+    document.getElementById('riddleQuestion').textContent=lang==='zh'?item.q_zh:item.q_en;
+    document.getElementById('riddleAnswer').textContent=lang==='zh'?item.a_zh:item.a_en;
+    document.getElementById('riddleAnswer').hidden=true;
+    document.getElementById('revealRiddle').hidden=false;
+    document.getElementById('riddleCorrect').hidden=true;
+    document.getElementById('riddleMissed').hidden=true;
+  }
+  function nextRiddle(){riddleIndex=(riddleIndex+1)%riddleData.length;renderRiddle();}
+  function renderName() {
+    var item=namesData[nameIndex], count=Object.keys(learnedNames).length;
+    document.getElementById('namesProgress').textContent=copy[lang].learnedNames.replace('{n}',count).replace('{total}',namesData.length)+' · '+copy[lang].nameSetNote.replace('{n}',namesData.length);
+    document.getElementById('namesProgressBar').style.width=(count/namesData.length*100)+'%';
+    document.getElementById('nameCard').innerHTML='<div class="name-card"><div class="riddle-step">'+(nameIndex+1)+' / '+namesData.length+'</div><div class="arabic-name" lang="ar" dir="rtl">'+esc(item.ar)+'</div><div class="name-translations"><p class="name-translation" lang="zh-CN"><b>中文</b>'+esc(item.zh)+'</p><p class="name-translation" lang="en"><b>English</b>'+esc(item.en)+'</p></div><button class="primary-action" type="button" id="learnName" '+(learnedNames[item.id]?'disabled':'')+'>'+esc(learnedNames[item.id]?copy[lang].watched:copy[lang].learned)+'</button></div><div class="module-controls"><button class="secondary-action" type="button" id="prevName">'+esc(copy[lang].previous)+'</button><button class="secondary-action" type="button" id="listenName">'+esc(copy[lang].listenArabic)+'</button><button class="secondary-action" type="button" id="nextName">'+esc(copy[lang].nextItem)+'</button></div>';
+  }
+  function speakText(text,voiceLang,button,fallbackText) {
+    if(!('speechSynthesis' in window)){showToast(lang==='zh'?'此设备暂不支持听读。':'Read aloud is not supported on this device.');return;}
+    stopSpeech(); var utterance=new SpeechSynthesisUtterance(text); utterance.lang=voiceLang; utterance.rate=voiceLang.indexOf('ar')===0?.78:.88;
+    var voices=window.speechSynthesis.getVoices(),prefix=voiceLang.slice(0,2).toLowerCase(),match=voices.filter(function(v){return v.lang.toLowerCase().slice(0,2)===prefix;})[0];if(match)utterance.voice=match;
+    if(button){activeSpeechButton=button;button.setAttribute('data-reset-label',button.querySelector('span')?button.querySelector('span').textContent:copy[lang].listen);button.setAttribute('aria-pressed','true');var span=button.querySelector('span');if(span)span.textContent=copy[lang].stopReading;}
+    utterance.onend=stopSpeech;utterance.onerror=function(){stopSpeech();if(fallbackText&&fallbackText!==text){speakText(fallbackText,'en-US',button);return;}showToast(lang==='zh'?'这次朗读没有成功，请再试一次。':'Read aloud could not start.');};window.speechSynthesis.speak(utterance);
+  }
+  function speakerSvg(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9.5a4 4 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/></svg>';}
+  function renderPrayer() {
+    document.getElementById('prayerList').innerHTML=prayerData.map(function(step){var title=lang==='zh'?step.title_zh:step.title_en;var body=lang==='zh'?step.zh:step.en;return '<article class="step-card"><div class="step-number">'+step.step+'</div><div><h3>'+esc(title)+'</h3><p>'+esc(body)+'</p>'+(step.arabic!=='—'?'<div class="step-arabic" lang="ar" dir="rtl">'+esc(step.arabic)+'</div><button class="listen-btn prayer-listen" type="button" data-prayer-step="'+step.step+'" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listen)+'</span></button>':'')+'</div></article>';}).join('');
+  }
+  function renderSurahs() {
+    var count=Object.keys(memorizedSurahs).length;document.getElementById('surahProgress').textContent=copy[lang].memorizedSurahs.replace('{n}',count).replace('{total}',surahData.length);document.getElementById('surahProgressBar').style.width=(count/surahData.length*100)+'%';
+    document.getElementById('surahList').innerHTML=surahData.map(function(s){var title=lang==='zh'?s.title_zh:s.title_en;return '<details class="surah-card"><summary><strong>'+esc(title)+'</strong><span>'+esc(copy[lang].verses.replace('{n}',s.verses))+'</span></summary><div class="surah-body"><div class="listen-row"><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="ar" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenArabic)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="zh" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenChinese)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="en" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenEnglish)+'</span></button></div><div class="dua-arabic" lang="ar" dir="rtl">'+esc(s.arabic)+'</div><div class="dua-translation"><div class="dua-lang"><b>'+esc(copy[lang].chinese)+'</b><p>'+esc(s.zh)+'</p></div><div class="dua-lang"><b>'+esc(copy[lang].english)+'</b><p>'+esc(s.en)+'</p></div></div><div class="listen-row"><button class="primary-action" type="button" data-memorize="'+esc(s.id)+'" '+(memorizedSurahs[s.id]?'disabled':'')+'>'+esc(memorizedSurahs[s.id]?copy[lang].watched:copy[lang].memorized)+'</button></div></div></details>';}).join('');
+  }
+  function renderTimeline() {
+    var count=Object.keys(watchedProphets).length;document.getElementById('timelineProgress').textContent=copy[lang].timelineLearned.replace('{n}',count).replace('{total}',timelineData.length);document.getElementById('timelineProgressBar').style.width=(count/timelineData.length*100)+'%';
+    document.getElementById('timelineList').innerHTML=timelineData.map(function(p){var episodeIndex=episodes.map(function(e){return e.id;}).indexOf(p.episode),available=episodeIndex>=0,watched=!!watchedProphets[p.id];return '<div class="timeline-item"><div class="timeline-num">'+p.id+'</div><div><strong>'+esc(lang==='zh'?p.zh:p.en)+'</strong><small>'+esc(available?(watched?copy[lang].watched:copy[lang].watch):copy[lang].comingSoon)+'</small></div>'+(available?'<button class="timeline-action" type="button" data-timeline-episode="'+episodeIndex+'" data-prophet="'+p.id+'">'+esc(watched?copy[lang].watched:copy[lang].watch)+'</button>':'<button class="timeline-action" type="button" disabled>'+esc(copy[lang].comingSoon)+'</button>')+'</div>';}).join('');
+  }
+  function renderFestivals() {
+    document.getElementById('festivalGrid').innerHTML=festivalData.map(function(item){
+      var title=lang==='zh'?item.titleZh:item.titleEn;
+      var kicker=lang==='zh'?item.kickerZh:item.kickerEn;
+      var body=lang==='zh'?item.bodyZh:item.bodyEn;
+      var lessons=lang==='zh'?item.lessonsZh:item.lessonsEn;
+      var source=lang==='zh'?item.sourceZh:item.sourceEn;
+      return '<article class="faith-card"><p class="faith-kicker">'+esc(kicker)+'</p><h3>'+esc(title)+'</h3><div class="faith-arabic" lang="ar" dir="rtl">'+esc(item.arabic)+'</div><p>'+esc(body)+'</p><ul class="faith-lessons">'+lessons.map(function(lesson){return '<li>'+esc(lesson)+'</li>';}).join('')+'</ul><a class="source-link" href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer">'+esc(copy[lang].sourceLearn)+' · '+esc(source)+' <span aria-hidden="true">↗</span></a></article>';
+    }).join('');
+  }
+  function renderLearning(){renderRiddle();renderName();renderPrayer();renderSurahs();renderTimeline();renderFestivals();}
+  function showModule(module){activeLearnModule=module;Array.prototype.forEach.call(document.querySelectorAll('.learn-tab'),function(btn){btn.setAttribute('aria-selected',btn.getAttribute('data-module')===module?'true':'false');});['riddles','names','prayer','surahs','timeline','festivals'].forEach(function(id){document.getElementById(id+'Panel').hidden=id!==module;});}
+  function renderQuiz() {
+    var ep=episodes[currentIndex],questions=quizData[ep.id],panel=document.getElementById('quizPanel');if(!questions){panel.hidden=true;return;}panel.hidden=false;
+    if(quizIndex>=questions.length){document.getElementById('quizBody').innerHTML='<p class="quiz-feedback">'+esc(lang==='zh'?'完成啦！继续学习吧。':'All done! Keep learning.')+'</p>';return;}
+    var q=questions[quizIndex],opts=lang==='zh'?q.opts_zh:q.opts_en;document.getElementById('quizBody').innerHTML='<p class="riddle-step">'+esc(copy[lang].quizProgress.replace('{n}',quizIndex+1))+'</p><p class="quiz-question">'+esc(lang==='zh'?q.q_zh:q.q_en)+'</p><div class="quiz-options">'+opts.map(function(opt,i){return '<button class="quiz-option" type="button" data-quiz-answer="'+i+'">'+esc(opt)+'</button>';}).join('')+'</div><p class="quiz-feedback" id="quizFeedback"></p>';
+  }
+  function startSleepTimer(minutes){clearTimeout(sleepTimerId);Array.prototype.forEach.call(document.querySelectorAll('.sleep-option'),function(btn){btn.setAttribute('aria-pressed',Number(btn.getAttribute('data-minutes'))===minutes?'true':'false');});var status=document.getElementById('sleepStatus');if(!minutes){status.textContent='';return;}status.textContent=copy[lang].timerSet.replace('{n}',minutes);sleepTimerId=setTimeout(function(){player.pause();status.textContent=copy[lang].timerStopped;},minutes*60000);}
+  function applyLanguage() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function(node) {
+      node.textContent = copy[lang][node.getAttribute('data-i18n')];
+    });
+    document.getElementById('langLabel').textContent = lang === 'zh' ? 'English' : '中文';
+    document.getElementById('langToggle').setAttribute('aria-label', lang === 'zh' ? 'Switch to English' : '切换到中文');
+    document.getElementById('closePlayer').setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
+    document.getElementById('categoryTabs').setAttribute('aria-label', copy[lang].categories);
+    document.getElementById('upcomingTitle').textContent = copy[lang].upcoming;
+    document.getElementById('duaSwitch').setAttribute('aria-label', lang === 'zh' ? '早晚选择' : 'Morning or evening');
+    renderCards();
+    renderDuas();
+    renderSunnahs();
+    renderLearning();
+    showModule(activeLearnModule);
+    updateCheckinButtons();
+    updateScore();
+    document.getElementById('learnTabs').setAttribute('aria-label', copy[lang].learnTitle);
+    if (!overlay.hidden) { updatePlayerText(); setPlaybackLanguage(lang,!player.paused); }
+  }
+  function updatePlayerText() {
+    var ep = episodes[currentIndex];
+    document.getElementById('playerEpisode').textContent = eLabel(ep.episode);
+    document.getElementById('playerTitle').textContent = lang === 'zh' ? ep.zh : ep.en;
+    document.getElementById('playerTheme').textContent = lang === 'zh' ? ep.themeZh : ep.themeEn;
+    document.getElementById('audioNote').textContent = copy[lang].audio;
+    var audioChoice=document.getElementById('audioChoice');
+    audioChoice.setAttribute('aria-label',copy[lang].audioGroup);
+    audioChoice.querySelector('[data-audio-lang="zh"]').textContent=copy[lang].audioChinese;
+    audioChoice.querySelector('[data-audio-lang="en"]').textContent=copy[lang].audioEnglish;
+    document.querySelector('#nextEpisode [data-i18n]').textContent = copy[lang].next;
+    updatePlayerFavorite();
+    if (!document.getElementById('quizPanel').hidden) renderQuiz();
+  }
+  function setCaptionVisibility(show) {
+    try { englishCaptions.track.mode = show ? 'showing' : 'disabled'; } catch (err) {}
+  }
+  function syncEnglishAudio(force) {
+    if (!useSidecarAudio || playbackLanguage !== 'en' || !isFinite(player.currentTime)) return;
+    if (force || Math.abs((englishAudio.currentTime || 0) - player.currentTime) > .35) {
+      try { englishAudio.currentTime = player.currentTime; } catch (err) {}
+    }
+  }
+  function setPlaybackLanguage(nextLanguage, continuePlayback) {
+    playbackLanguage = nextLanguage === 'en' ? 'en' : 'zh';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-audio-lang]'),function(button){
+      button.setAttribute('aria-pressed',button.getAttribute('data-audio-lang')===playbackLanguage?'true':'false');
+    });
+    setCaptionVisibility(playbackLanguage === 'en');
+    var tracks = player.audioTracks;
+    useSidecarAudio = !(tracks && tracks.length >= 2);
+    if (!useSidecarAudio) {
+      for (var i=0;i<tracks.length;i+=1) {
+        var trackLanguage=(tracks[i].language||'').toLowerCase();
+        tracks[i].enabled = playbackLanguage === 'en' ? (trackLanguage.indexOf('en')===0 || i===1) : (trackLanguage.indexOf('zh')===0 || trackLanguage.indexOf('chi')===0 || i===0);
+      }
+      player.muted = false;
+      englishAudio.pause();
+      return;
+    }
+    if (playbackLanguage === 'en') {
+      player.muted = true;
+      englishAudio.playbackRate = player.playbackRate;
+      englishAudio.volume = player.volume;
+      syncEnglishAudio(true);
+      if (continuePlayback && !player.paused) {
+        var audioPlayback=englishAudio.play();
+        if(audioPlayback&&typeof audioPlayback.catch==='function') audioPlayback.catch(function(){ player.pause(); setVideoStatus('ready'); });
+      }
+    } else {
+      englishAudio.pause();
+      player.muted = false;
+    }
+  }
+  function playCurrentVideo() {
+    if (playbackLanguage === 'en' && useSidecarAudio) {
+      syncEnglishAudio(true);
+      var audioPlayback=englishAudio.play();
+      if(audioPlayback&&typeof audioPlayback.catch==='function') audioPlayback.catch(function(){ player.pause(); setVideoStatus('ready'); });
+    }
+    return player.play();
+  }
+  function releaseVideoSource() {
+    player.pause();
+    englishAudio.pause();
+    englishAudio.removeAttribute('src');
+    englishAudio.load();
+    player.muted = false;
+    player.removeAttribute('src');
+    player.load();
+    if (videoObjectUrl) {
+      URL.revokeObjectURL(videoObjectUrl);
+      videoObjectUrl = null;
+    }
+  }
+  function setVideoStatus(mode) {
+    videoState = mode;
+    videoStatus.hidden = false;
+    videoSpinner.hidden = mode !== 'loading';
+    videoStart.hidden = mode === 'loading';
+    if (mode === 'loading') {
+      videoStatusText.textContent = lang === 'zh' ? '正在准备视频…' : 'Preparing the video…';
+    } else if (mode === 'ready') {
+      videoStatusText.textContent = lang === 'zh' ? '视频准备好了' : 'The video is ready';
+      videoStart.textContent = lang === 'zh' ? '开始播放' : 'Play video';
+    } else {
+      videoStatusText.textContent = lang === 'zh' ? '视频加载没有成功，请再试一次' : 'The video did not load. Please try again.';
+      videoStart.textContent = lang === 'zh' ? '重新加载' : 'Try again';
+    }
+  }
+  function loadVideo(ep, token) {
+    setVideoStatus('loading');
+    fetch('assets/videos/'+ep.id+'.mp4?v=20260928-ios', {cache:'no-store'})
+      .then(function(response) {
+        if (!response.ok) throw new Error('video request failed');
+        return response.arrayBuffer();
+      })
+      .then(function(bytes) {
+        if (token !== videoLoadToken || overlay.hidden) return;
+        if (bytes.byteLength < 1024) throw new Error('video response was empty');
+        videoObjectUrl = URL.createObjectURL(new Blob([bytes], {type:'video/mp4'}));
+        player.addEventListener('loadedmetadata', function onVideoReady() {
+          if (token !== videoLoadToken || overlay.hidden) return;
+          setPlaybackLanguage(lang,false);
+          setVideoStatus('ready');
+          var playback = playCurrentVideo();
+          if (playback && typeof playback.then === 'function') {
+            playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
+          }
+        }, {once:true});
+        player.addEventListener('error', function onVideoError() {
+          if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
+        }, {once:true});
+        player.src = videoObjectUrl;
+        player.load();
+      })
+      .catch(function() {
+        if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
+      });
+  }
+  function openPlayer(index, trigger) {
+    currentIndex = index; lastFocus = trigger || document.activeElement;
+    var ep = episodes[index];
+    videoLoadToken += 1;
+    releaseVideoSource();
+    player.poster = 'assets/thumbs/'+ep.id+'.jpg';
+    englishAudio.src = 'assets/dub_en/'+ep.id+'_en.m4a?v=20260929-en';
+    englishCaptions.src = 'assets/subtitles/'+ep.id+'.en.vtt?v=20260929-en';
+    setPlaybackLanguage(lang,false);
+    quizIndex = 0;
+    document.getElementById('quizPanel').hidden = true;
+    startSleepTimer(0);
+    updatePlayerText();
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    loadVideo(ep, videoLoadToken);
+    document.getElementById('closePlayer').focus({preventScroll:true});
+  }
+  function closePlayer() {
+    clearTimeout(sleepTimerId); sleepTimerId = null;
+    videoLoadToken += 1;
+    releaseVideoSource();
+    videoStatus.hidden = true;
+    overlay.hidden = true; document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  document.getElementById('langToggle').addEventListener('click', function(){ lang = lang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
+  Array.prototype.forEach.call(document.querySelectorAll('.category-btn'), function(btn) {
+    btn.addEventListener('click', function(){
+      var isProphets = btn.getAttribute('data-category') === 'prophets';
+      Array.prototype.forEach.call(document.querySelectorAll('.category-btn'), function(other){ other.setAttribute('aria-selected', other === btn ? 'true' : 'false'); });
+      document.getElementById('featuredSection').hidden = !isProphets;
+      document.getElementById('library').hidden = !isProphets;
+      document.getElementById('upcomingSection').hidden = isProphets;
+      document.getElementById('upcomingTitle').textContent = copy[lang].upcoming;
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.dua-time'), function(btn) {
+    btn.addEventListener('click', function(){
+      currentDuaTime = btn.getAttribute('data-dua-time');
+      Array.prototype.forEach.call(document.querySelectorAll('.dua-time'), function(other){ other.setAttribute('aria-selected', other === btn ? 'true' : 'false'); });
+      renderDuas();
+    });
+  });
+  document.getElementById('duaList').addEventListener('click', function(ev){
+    var button = ev.target.closest('.listen-btn');
+    if (button) speakDua(button);
+    var fav = ev.target.closest('[data-favorite-key]');
+    if (fav) toggleFavorite(fav.getAttribute('data-favorite-key'),fav.getAttribute('data-favorite-label'));
+  });
+  document.getElementById('sunnahList').addEventListener('click', function(ev){
+    var button = ev.target.closest('.listen-btn');
+    if (button) speakDua(button);
+    var fav = ev.target.closest('[data-favorite-key]');
+    if (fav) toggleFavorite(fav.getAttribute('data-favorite-key'),fav.getAttribute('data-favorite-label'));
+  });
+  document.getElementById('closePlayer').addEventListener('click', closePlayer);
+  videoStart.addEventListener('click', function(){
+    if (videoState === 'error' || !player.getAttribute('src')) {
+      videoLoadToken += 1;
+      releaseVideoSource();
+      loadVideo(episodes[currentIndex], videoLoadToken);
+      return;
+    }
+    var playback = playCurrentVideo();
+    if (playback && typeof playback.then === 'function') {
+      playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('error'); });
+    }
+  });
+  document.getElementById('audioChoice').addEventListener('click',function(ev){
+    var button=ev.target.closest('[data-audio-lang]');
+    if(!button)return;
+    lang=button.getAttribute('data-audio-lang');
+    applyLanguage();
+  });
+  player.addEventListener('playing', function(){
+    videoStatus.hidden = true;
+    if(playbackLanguage==='en'&&useSidecarAudio){syncEnglishAudio(true);var playback=englishAudio.play();if(playback&&typeof playback.catch==='function')playback.catch(function(){player.pause();setVideoStatus('ready');});}
+  });
+  player.addEventListener('pause',function(){if(useSidecarAudio)englishAudio.pause();});
+  player.addEventListener('seeked',function(){syncEnglishAudio(true);});
+  player.addEventListener('timeupdate',function(){syncEnglishAudio(false);});
+  player.addEventListener('ratechange',function(){englishAudio.playbackRate=player.playbackRate;});
+  player.addEventListener('volumechange',function(){englishAudio.volume=player.volume;});
+  overlay.addEventListener('click', function(ev){ if (ev.target === overlay) closePlayer(); });
+  document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape' && !overlay.hidden) closePlayer(); });
+  document.getElementById('nextEpisode').addEventListener('click', function(){ openPlayer((currentIndex + 1) % episodes.length, document.getElementById('nextEpisode')); });
+  Array.prototype.forEach.call(document.querySelectorAll('.nav-btn'), function(btn) {
+    btn.addEventListener('click', function(){
+      stopSpeech();
+      var view = btn.getAttribute('data-view');
+      document.getElementById('homeView').hidden = view !== 'home';
+      document.getElementById('duaView').hidden = view !== 'dua';
+      document.getElementById('sunnahView').hidden = view !== 'sunnah';
+      document.getElementById('playView').hidden = view !== 'play';
+      document.getElementById('aboutView').hidden = view !== 'about';
+      Array.prototype.forEach.call(document.querySelectorAll('.nav-btn'), function(other){ other.removeAttribute('aria-current'); });
+      btn.setAttribute('aria-current','page'); window.scrollTo({top:0,behavior:'auto'});
+    });
+  });
+  document.getElementById('favoriteEpisode').addEventListener('click',function(){var ep=episodes[currentIndex];toggleFavorite('episode:'+ep.id,lang==='zh'?ep.zh:ep.en);});
+  Array.prototype.forEach.call(document.querySelectorAll('.checkin-btn'),function(btn){btn.addEventListener('click',function(){if(checkedIn)return;checkedIn=true;score+=10;updateCheckinButtons();updateScore();showToast(lang==='zh'?'打卡成功，获得 10 分！':'Checked in — 10 points earned!');});});
+  document.getElementById('sleepOptions').addEventListener('click',function(ev){var btn=ev.target.closest('.sleep-option');if(btn)startSleepTimer(Number(btn.getAttribute('data-minutes')));});
+  player.addEventListener('ended',function(){
+    var ep=episodes[currentIndex];timelineData.forEach(function(p){if(p.episode===ep.id)watchedProphets[p.id]=true;});renderTimeline();quizIndex=0;renderQuiz();
+  });
+  document.getElementById('quizBody').addEventListener('click',function(ev){var btn=ev.target.closest('[data-quiz-answer]');if(!btn)return;var ep=episodes[currentIndex],q=quizData[ep.id][quizIndex],answer=Number(btn.getAttribute('data-quiz-answer')),key=ep.id+':'+quizIndex;Array.prototype.forEach.call(document.querySelectorAll('.quiz-option'),function(o){o.disabled=true;});if(answer===q.answer){btn.classList.add('correct');document.getElementById('quizFeedback').textContent=copy[lang].correct;if(!quizAnswered[key]){quizAnswered[key]=true;score+=5;updateScore();}quizIndex+=1;setTimeout(renderQuiz,650);}else{btn.classList.add('wrong');document.getElementById('quizFeedback').textContent=copy[lang].wrong;setTimeout(function(){Array.prototype.forEach.call(document.querySelectorAll('.quiz-option'),function(o){o.disabled=false;o.classList.remove('wrong');});},650);}});
+  document.getElementById('revealRiddle').addEventListener('click',function(){document.getElementById('riddleAnswer').hidden=false;this.hidden=true;document.getElementById('riddleCorrect').hidden=!!riddleAnswered[riddleIndex];document.getElementById('riddleMissed').hidden=false;});
+  document.getElementById('riddleCorrect').addEventListener('click',function(){if(!riddleAnswered[riddleIndex]){riddleAnswered[riddleIndex]=true;riddlePoints+=5;score+=5;updateScore();showToast(copy[lang].correct);}nextRiddle();});
+  document.getElementById('riddleMissed').addEventListener('click',nextRiddle);
+  document.getElementById('learnTabs').addEventListener('click',function(ev){var btn=ev.target.closest('.learn-tab');if(btn){showModule(btn.getAttribute('data-module'));stopSpeech();}});
+  document.getElementById('nameCard').addEventListener('click',function(ev){
+    if(ev.target.closest('#prevName')){nameIndex=(nameIndex-1+namesData.length)%namesData.length;renderName();return;}
+    if(ev.target.closest('#nextName')){nameIndex=(nameIndex+1)%namesData.length;renderName();return;}
+    if(ev.target.closest('#listenName')){var item=namesData[nameIndex];speakText(item.ar,'ar-SA',null);return;}
+    if(ev.target.closest('#learnName')){var item=namesData[nameIndex];if(!learnedNames[item.id]){learnedNames[item.id]=true;score+=5;updateScore();showToast(lang==='zh'?'学会一个美名，获得 5 分！':'One name learned — 5 points!');}renderName();}
+  });
+  document.getElementById('prayerList').addEventListener('click',function(ev){var btn=ev.target.closest('[data-prayer-step]');if(!btn)return;var step=prayerData.filter(function(s){return s.step===Number(btn.getAttribute('data-prayer-step'));})[0];speakText(step.arabic,'ar-SA',btn);});
+  document.getElementById('surahList').addEventListener('click',function(ev){
+    var listen=ev.target.closest('[data-surah-id]');if(listen){var s=surahData.filter(function(x){return x.id===listen.getAttribute('data-surah-id');})[0],code=listen.getAttribute('data-surah-lang'),text=code==='ar'?s.arabic:(code==='zh'?s.zh:s.en);speakText(text,code==='ar'?'ar-SA':(code==='zh'?'zh-CN':'en-US'),listen);return;}
+    var done=ev.target.closest('[data-memorize]');if(done){var id=done.getAttribute('data-memorize');if(!memorizedSurahs[id]){memorizedSurahs[id]=true;score+=10;updateScore();showToast(lang==='zh'?'背会一章，获得 10 分！':'Surah memorized — 10 points!');}renderSurahs();}
+  });
+  document.getElementById('timelineList').addEventListener('click',function(ev){var btn=ev.target.closest('[data-timeline-episode]');if(btn)openPlayer(Number(btn.getAttribute('data-timeline-episode')),btn);});
+  document.getElementById('favoriteList').addEventListener('click',function(ev){var btn=ev.target.closest('[data-remove-favorite]');if(btn){delete favorites[btn.getAttribute('data-remove-favorite')];renderDuas();renderSunnahs();updatePlayerFavorite();renderDashboard();}});
+  document.getElementById('saveReminders').addEventListener('click',function(){reminderTimes.morning=document.getElementById('morningTime').value;reminderTimes.evening=document.getElementById('eveningTime').value;reminderSeen={};showToast(copy[lang].remindersSet);});
+  setInterval(function(){var now=new Date(),hh=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),day=now.toDateString();['morning','evening'].forEach(function(k){var key=day+':'+k;if(reminderTimes[k]===hh&&!reminderSeen[key]){reminderSeen[key]=true;showToast(k==='morning'?copy[lang].reminderMorning:copy[lang].reminderEvening);}});},30000);
+  applyLanguage();
+})();
+</script>
+</body>
+</html>
