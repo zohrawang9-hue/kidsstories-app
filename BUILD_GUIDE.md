@@ -9,6 +9,9 @@
 
 > ✅ 注册已于 2026-09-29 通过苹果审核。Team ID：`LRWKNYMQZJ`（用户 2026-09-29 下午提供）。
 > 在 Xcode Signing & Capabilities 中选择该 Team；云打包时填入同一 Team ID。
+> ✅ 2026-09-29 晚：用户选定**云 Mac（Codemagic）**路线。`ios/` 原生工程已在 Linux 上用
+> `npx cap add ios` 生成并提交到 GitHub 私有仓库 `zohrawang9-hue/kidsstories-app`（main 分支），
+> 云打包配置见 `codemagic.yaml`。`npx cap sync` 与签名打包在 Codemagic 的 Mac 上执行。
 
 1. 用 Apple ID 登录 [Apple Developer 官网](https://developer.apple.com)（以官网为准），
    注册 Apple Developer Program（年费金额以官网为准，加拿大区可能另计税费）。
