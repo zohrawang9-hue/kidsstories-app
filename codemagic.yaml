@@ -42,12 +42,51 @@ workflows:
       - name: Set up code signing settings
         script: |
           xcode-project use-profiles
+      # 注意：这里故意用原始 xcodebuild 而不是 xcode-project build-ipa，
+      # 因为后者的美化输出会把真正的报错藏起来（只显示 "Failed to archive"）。
       - name: Build IPA for distribution
         script: |
-          xcode-project build-ipa --workspace ios/App/App.xcworkspace --scheme App
+          set -e
+          set -o pipefail 2>/dev/null || true
+          xcodebuild -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$PWD/build/App.xcarchive" \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY='Apple Distribution' \
+            DEVELOPMENT_TEAM=LRWKNYMQZJ \
+            archive | tee /tmp/xcodebuild_archive.log
+          PROFILE_FILE=$(grep -l 'ca.zohra.studio.kidsstories' ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision 2>/dev/null | head -1 || true)
+          if [ -z "$PROFILE_FILE" ]; then
+            echo "ERROR: no provisioning profile found for ca.zohra.studio.kidsstories"
+            exit 1
+          fi
+          security cms -D -i "$PROFILE_FILE" -o /tmp/profile.plist
+          PROFILE_NAME=$(plutil -extract Name raw /tmp/profile.plist)
+          echo "Exporting with provisioning profile: $PROFILE_NAME"
+          cat > /tmp/exportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>teamID</key><string>LRWKNYMQZJ</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>ca.zohra.studio.kidsstories</key><string>$PROFILE_NAME</string>
+            </dict>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath "$PWD/build/App.xcarchive" \
+            -exportOptionsPlist /tmp/exportOptions.plist \
+            -exportPath "$PWD/build/ios" | tee /tmp/xcodebuild_export.log
     artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
+      - build/ios/*.ipa
+      - /tmp/xcodebuild_*.log
     publishing:
       app_store_connect:
         auth: integration
