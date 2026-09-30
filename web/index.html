@@ -285,6 +285,7 @@
     .surah-card summary { display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:17px;cursor:pointer;list-style:none; }.surah-card summary::-webkit-details-marker{display:none}
     .surah-card summary strong { font:700 19px "Noto Serif SC",serif; }.surah-card summary span { color:var(--muted);font-size:12px; }
     .surah-body { padding:0 17px 18px;border-top:1px solid var(--line); }
+    .reciter-note { font-size:11px;color:var(--muted);margin:8px 0 0; }
     .timeline-item { display:grid;grid-template-columns:44px 1fr auto;gap:13px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:10px 18px 10px 10px;background:var(--surface); }
     .timeline-num { width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--paper-2);font-weight:900;color:var(--night-2); }
     .timeline-item strong { display:block; }.timeline-item small { color:var(--muted); }
@@ -713,7 +714,31 @@
   function speechLabel(code) {
     return code === 'ar' ? copy[lang].listenArabic : (code === 'zh' ? copy[lang].listenChinese : copy[lang].listenEnglish);
   }
+  var surahAudio = null, activeSurahButton = null;
+  function stopSurahAudio() {
+    if (surahAudio) { try { surahAudio.pause(); } catch(e){} surahAudio = null; }
+    if (activeSurahButton && activeSurahButton.isConnected) {
+      activeSurahButton.setAttribute('aria-pressed','false');
+      var sp = activeSurahButton.querySelector('span');
+      if (sp) sp.textContent = activeSurahButton.getAttribute('data-reset-label') || '';
+    }
+    activeSurahButton = null;
+  }
+  function playSurahRecitation(id, button) {
+    stopSpeech();
+    if (activeSurahButton === button && surahAudio && !surahAudio.paused) { stopSurahAudio(); return; }
+    stopSurahAudio();
+    var a = new Audio('assets/quran/' + id + '.mp3');
+    surahAudio = a; activeSurahButton = button;
+    button.setAttribute('data-reset-label', button.querySelector('span') ? button.querySelector('span').textContent : '');
+    button.setAttribute('aria-pressed','true');
+    var sp = button.querySelector('span'); if (sp) sp.textContent = copy[lang].stopReading;
+    a.onended = stopSurahAudio;
+    a.onerror = function(){ stopSurahAudio(); showToast(lang==='zh'?'诵读音频加载失败，请再试一次。':'Recitation audio failed to load.'); };
+    var pr = a.play(); if (pr && pr.catch) pr.catch(function(){ stopSurahAudio(); });
+  }
   function stopSpeech() {
+    stopSurahAudio();
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     if (activeSpeechButton && activeSpeechButton.isConnected) {
       activeSpeechButton.setAttribute('aria-pressed','false');
@@ -886,7 +911,7 @@
   }
   function renderSurahs() {
     var count=Object.keys(memorizedSurahs).length;document.getElementById('surahProgress').textContent=copy[lang].memorizedSurahs.replace('{n}',count).replace('{total}',surahData.length);document.getElementById('surahProgressBar').style.width=(count/surahData.length*100)+'%';
-    document.getElementById('surahList').innerHTML=surahData.map(function(s){var title=lang==='zh'?s.title_zh:s.title_en;return '<details class="surah-card"><summary><strong>'+esc(title)+'</strong><span>'+esc(copy[lang].verses.replace('{n}',s.verses))+'</span></summary><div class="surah-body"><div class="listen-row"><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="ar" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenArabic)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="zh" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenChinese)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="en" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenEnglish)+'</span></button></div><div class="dua-arabic" lang="ar" dir="rtl">'+esc(s.arabic)+'</div><div class="dua-translation"><div class="dua-lang"><b>'+esc(copy[lang].chinese)+'</b><p>'+esc(s.zh)+'</p></div><div class="dua-lang"><b>'+esc(copy[lang].english)+'</b><p>'+esc(s.en)+'</p></div></div><div class="listen-row"><button class="primary-action" type="button" data-memorize="'+esc(s.id)+'" '+(memorizedSurahs[s.id]?'disabled':'')+'>'+esc(memorizedSurahs[s.id]?copy[lang].watched:copy[lang].memorized)+'</button></div></div></details>';}).join('');
+    document.getElementById('surahList').innerHTML=surahData.map(function(s){var title=lang==='zh'?s.title_zh:s.title_en;return '<details class="surah-card"><summary><strong>'+esc(title)+'</strong><span>'+esc(copy[lang].verses.replace('{n}',s.verses))+'</span></summary><div class="surah-body"><div class="listen-row"><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="ar" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenArabic)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="zh" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenChinese)+'</span></button><button class="listen-btn" type="button" data-surah-id="'+esc(s.id)+'" data-surah-lang="en" aria-pressed="false">'+speakerSvg()+'<span>'+esc(copy[lang].listenEnglish)+'</span></button></div><div class="reciter-note">'+esc(lang==='zh'?'🎙 诵读：Mishary Rashid Alafasy':'🎙 Recited by Mishary Rashid Alafasy')+'</div><div class="dua-arabic" lang="ar" dir="rtl">'+esc(s.arabic)+'</div><div class="dua-translation"><div class="dua-lang"><b>'+esc(copy[lang].chinese)+'</b><p>'+esc(s.zh)+'</p></div><div class="dua-lang"><b>'+esc(copy[lang].english)+'</b><p>'+esc(s.en)+'</p></div></div><div class="listen-row"><button class="primary-action" type="button" data-memorize="'+esc(s.id)+'" '+(memorizedSurahs[s.id]?'disabled':'')+'>'+esc(memorizedSurahs[s.id]?copy[lang].watched:copy[lang].memorized)+'</button></div></div></details>';}).join('');
   }
   function renderTimeline() {
     var count=Object.keys(watchedProphets).length;document.getElementById('timelineProgress').textContent=copy[lang].timelineLearned.replace('{n}',count).replace('{total}',timelineData.length);document.getElementById('timelineProgressBar').style.width=(count/timelineData.length*100)+'%';
@@ -1172,7 +1197,7 @@
   });
   document.getElementById('prayerList').addEventListener('click',function(ev){var btn=ev.target.closest('[data-prayer-step]');if(!btn)return;var step=prayerData.filter(function(s){return s.step===Number(btn.getAttribute('data-prayer-step'));})[0];speakText(step.arabic,'ar-SA',btn);});
   document.getElementById('surahList').addEventListener('click',function(ev){
-    var listen=ev.target.closest('[data-surah-id]');if(listen){var s=surahData.filter(function(x){return x.id===listen.getAttribute('data-surah-id');})[0],code=listen.getAttribute('data-surah-lang'),text=code==='ar'?s.arabic:(code==='zh'?s.zh:s.en);speakText(text,code==='ar'?'ar-SA':(code==='zh'?'zh-CN':'en-US'),listen);return;}
+    var listen=ev.target.closest('[data-surah-id]');if(listen){var s=surahData.filter(function(x){return x.id===listen.getAttribute('data-surah-id');})[0],code=listen.getAttribute('data-surah-lang');if(code==='ar'){playSurahRecitation(s.id,listen);return;}var text=code==='zh'?s.zh:s.en;speakText(text,code==='zh'?'zh-CN':'en-US',listen);return;}
     var done=ev.target.closest('[data-memorize]');if(done){var id=done.getAttribute('data-memorize');if(!memorizedSurahs[id]){memorizedSurahs[id]=true;score+=10;updateScore();showToast(lang==='zh'?'背会一章，获得 10 分！':'Surah memorized — 10 points!');}renderSurahs();}
   });
   document.getElementById('timelineList').addEventListener('click',function(ev){var btn=ev.target.closest('[data-timeline-episode]');if(btn)openPlayer(Number(btn.getAttribute('data-timeline-episode')),btn);});
