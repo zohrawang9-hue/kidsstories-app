@@ -663,6 +663,12 @@
   Object.assign(copy.zh,{learnTitle:'一起学与玩',learnLead:'猜谜、学美名、学礼拜、背短章，也认识斋月、两大节日与每周五的聚礼。',learningPoints:'学习积分',namesTitle:'安拉的美名',prayerTitle:'礼拜小老师',prayerLead:'跟着 9 个步骤学习动作和念词，大字清楚，点击按钮即可听读。',surahsTitle:'背诵小短章',timelineTitle:'先知时间线',learned:'学会了 +5',memorized:'背会了 +10',learnedNames:'已学会 {n} / {total}',memorizedSurahs:'已背会 {n} / {total}',timelineLearned:'已看过 {n} / {total}',previous:'上一个',nextItem:'下一个',listen:'听读',verses:'{n} 节',watch:'观看',comingSoon:'即将推出',markWatched:'标记看过',watched:'已看过',nameSetNote:'素材当前提供 {n} 个美名。',festivalsTitle:'斋月与节日',festivalsHeading:'认识我们的节日与聚礼',festivalsLead:'从斋月到两大节日，再到每周五的聚礼，了解穆斯林共同珍惜的时光。',sourceLearn:'查看学习来源'});
   Object.assign(copy.en,{learnTitle:'Learn & Play',learnLead:'Solve riddles, learn Allah’s beautiful names, practice prayer, memorize short surahs, and discover Ramadan, both Eids and Friday prayer.',learningPoints:'Learning points',namesTitle:'Beautiful Names of Allah',prayerTitle:'Prayer Teacher',prayerLead:'Follow 9 clear, large-print steps and tap the big button to hear each recitation.',surahsTitle:'Memorize Short Surahs',timelineTitle:'Prophets Timeline',learned:'I learned it +5',memorized:'Memorized +10',learnedNames:'Learned {n} of {total}',memorizedSurahs:'Memorized {n} of {total}',timelineLearned:'Watched {n} of {total}',previous:'Previous',nextItem:'Next',listen:'Listen',verses:'{n} verses',watch:'Watch',comingSoon:'Coming soon',markWatched:'Mark watched',watched:'Watched',nameSetNote:'The supplied collection currently contains {n} names.',festivalsTitle:'Ramadan & Eid',festivalsHeading:'Our festivals and Friday prayer',festivalsLead:'Learn about Ramadan, the two Eids, and the Friday prayer that Muslims cherish together each week.',sourceLearn:'Open learning source'});
   var lang = 'zh';
+  var audioLang = 'zh';
+  var audioLangChosen = false;
+  try {
+    var savedAudioLang = localStorage.getItem('kidsstories_audio_lang');
+    if (savedAudioLang === 'en' || savedAudioLang === 'zh') { audioLang = savedAudioLang; audioLangChosen = true; }
+  } catch (err) {}
   var currentIndex = 0;
   var grid = document.getElementById('episodeGrid');
   var featuredGrid = document.getElementById('featuredGrid');
@@ -677,7 +683,7 @@
   var videoObjectUrl = null;
   var videoLoadToken = 0;
   var videoState = 'idle';
-  var playbackLanguage = 'zh';
+  var playbackLanguage = audioLang;
   var useSidecarAudio = false;
   var lastFocus = null;
   var currentDuaTime = 'morning';
@@ -923,7 +929,7 @@
     updateCheckinButtons();
     updateScore();
     document.getElementById('learnTabs').setAttribute('aria-label', copy[lang].learnTitle);
-    if (!overlay.hidden) { updatePlayerText(); setPlaybackLanguage(lang,!player.paused); }
+    if (!overlay.hidden) { updatePlayerText(); if (!audioLangChosen) audioLang = lang; setPlaybackLanguage(audioLang,!player.paused); }
   }
   function updatePlayerText() {
     var ep = episodes[currentIndex];
@@ -1028,7 +1034,7 @@
         videoObjectUrl = URL.createObjectURL(new Blob([bytes], {type:'video/mp4'}));
         player.addEventListener('loadedmetadata', function onVideoReady() {
           if (token !== videoLoadToken || overlay.hidden) return;
-          setPlaybackLanguage(lang,false);
+          setPlaybackLanguage(audioLang,false);
           setVideoStatus('ready');
           var playback = playCurrentVideo();
           if (playback && typeof playback.then === 'function') {
@@ -1053,7 +1059,7 @@
     player.poster = 'assets/thumbs/'+ep.id+'.jpg';
     englishAudio.src = 'assets/dub_en/'+ep.id+'_en.m4a?v=20260929-en';
     englishCaptions.src = 'assets/subtitles/'+ep.id+'.en.vtt?v=20260929-en';
-    setPlaybackLanguage(lang,false);
+    setPlaybackLanguage(audioLang,false);
     quizIndex = 0;
     document.getElementById('quizPanel').hidden = true;
     startSleepTimer(0);
@@ -1117,8 +1123,10 @@
   document.getElementById('audioChoice').addEventListener('click',function(ev){
     var button=ev.target.closest('[data-audio-lang]');
     if(!button)return;
-    lang=button.getAttribute('data-audio-lang');
-    applyLanguage();
+    audioLang=button.getAttribute('data-audio-lang')==='en'?'en':'zh';
+    audioLangChosen=true;
+    try{localStorage.setItem('kidsstories_audio_lang',audioLang);}catch(err){}
+    setPlaybackLanguage(audioLang,!player.paused);
   });
   player.addEventListener('playing', function(){
     videoStatus.hidden = true;

@@ -9,6 +9,9 @@
 #     填入 Issuer ID、Key ID，上传对应的 .p8 文件
 #  4. 在 developer.apple.com 注册 App ID：ca.zohra.studio.kidsstories（Explicit）
 #  5. 在 App Store Connect 建 App 记录（My Apps → + → New App），Bundle ID 选上面的
+#  6. 在 Codemagic 里打开 kidsstories-app 这个应用自己的设置 → Environment variables，
+#     新建变量组 ios_signing，加一个 Secure 变量 CERTIFICATE_PRIVATE_KEY，
+#     内容是本机 .secrets/ios_distribution_private_key.pem 的全文（证书私钥，勿提交到 git）
 workflows:
   ios-testflight:
     name: iOS TestFlight
@@ -21,6 +24,8 @@ workflows:
       node: 20
       xcode: latest
       cocoapods: default
+      groups:
+        - ios_signing
       vars:
         BUNDLE_ID: ca.zohra.studio.kidsstories
     scripts:
