@@ -3,3 +3,4 @@ node_modules/
 *.log
 
 .secrets/
+video-backup-dual-audio/
