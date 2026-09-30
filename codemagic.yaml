@@ -39,9 +39,18 @@ workflows:
         script: |
           keychain initialize
           app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+      - name: Add signing certificates to keychain
+        script: |
+          keychain add-certificates
       - name: Set up code signing settings
         script: |
           xcode-project use-profiles
+      - name: Diagnose signing setup
+        script: |
+          echo "=== codesigning identities in keychain:"
+          security find-identity -v -p codesigning 2>&1 | head -20 || true
+          echo "=== provisioning profiles:"
+          ls ~/Library/MobileDevice/Provisioning\ Profiles/ 2>&1 || true
       # 注意：这里故意用原始 xcodebuild 而不是 xcode-project build-ipa，
       # 因为后者的美化输出会把真正的报错藏起来（只显示 "Failed to archive"）。
       - name: Build IPA for distribution
