@@ -1098,33 +1098,21 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "鸟", "en": "The B
   }
   function loadVideo(ep, token) {
     setVideoStatus('loading');
-    fetch('assets/videos/'+ep.id+'.mp4?v=20260928-ios', {cache:'no-store'})
-      .then(function(response) {
-        if (!response.ok) throw new Error('video request failed');
-        return response.arrayBuffer();
-      })
-      .then(function(bytes) {
-        if (token !== videoLoadToken || overlay.hidden) return;
-        if (bytes.byteLength < 1024) throw new Error('video response was empty');
-        videoObjectUrl = URL.createObjectURL(new Blob([bytes], {type:'video/mp4'}));
-        player.addEventListener('loadedmetadata', function onVideoReady() {
-          if (token !== videoLoadToken || overlay.hidden) return;
-          setPlaybackLanguage(audioLang,false);
-          setVideoStatus('ready');
-          var playback = playCurrentVideo();
-          if (playback && typeof playback.then === 'function') {
-            playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
-          }
-        }, {once:true});
-        player.addEventListener('error', function onVideoError() {
-          if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
-        }, {once:true});
-        player.src = videoObjectUrl;
-        player.load();
-      })
-      .catch(function() {
-        if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
-      });
+    releaseVideoSource();
+    player.addEventListener('loadedmetadata', function onVideoReady() {
+      if (token !== videoLoadToken || overlay.hidden) return;
+      setPlaybackLanguage(audioLang,false);
+      setVideoStatus('ready');
+      var playback = playCurrentVideo();
+      if (playback && typeof playback.then === 'function') {
+        playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
+      }
+    }, {once:true});
+    player.addEventListener('error', function onVideoError() {
+      if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
+    }, {once:true});
+    player.src = 'assets/videos/'+ep.id+'.mp4';
+    player.load();
   }
   function openPlayer(index, trigger, category) {
     if (category) activeCategory = category;
