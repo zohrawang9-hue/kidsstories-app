@@ -970,7 +970,8 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
       var body=lang==='zh'?item.bodyZh:item.bodyEn;
       var lessons=lang==='zh'?item.lessonsZh:item.lessonsEn;
       var source=lang==='zh'?item.sourceZh:item.sourceEn;
-      return '<article class="faith-card"><p class="faith-kicker">'+esc(kicker)+'</p><h3>'+esc(title)+'</h3><div class="faith-arabic" lang="ar" dir="rtl">'+esc(item.arabic)+'</div><p>'+esc(body)+'</p><ul class="faith-lessons">'+lessons.map(function(lesson){return '<li>'+esc(lesson)+'</li>';}).join('')+'</ul><a class="source-link" href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer">'+esc(copy[lang].sourceLearn)+' · '+esc(source)+' <span aria-hidden="true">↗</span></a></article>';
+      var watchLabel=lang==='zh'?'观看视频':'Watch video';
+      return '<article class="faith-card"><p class="faith-kicker">'+esc(kicker)+'</p><h3>'+esc(title)+'</h3><div class="faith-arabic" lang="ar" dir="rtl">'+esc(item.arabic)+'</div><p>'+esc(body)+'</p><ul class="faith-lessons">'+lessons.map(function(lesson){return '<li>'+esc(lesson)+'</li>';}).join('')+'</ul><button class="watch-btn" type="button" data-festival-video="festival-'+esc(item.id)+'">'+esc(watchLabel)+' ▶</button><a class="source-link" href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer">'+esc(copy[lang].sourceLearn)+' · '+esc(source)+' <span aria-hidden="true">↗</span></a></article>';
     }).join('');
   }
   function renderLearning(){renderRiddle();renderName();renderPrayer();renderSurahs();renderTimeline();renderFestivals();}
@@ -1096,6 +1097,24 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
       videoStart.textContent = lang === 'zh' ? '重新加载' : 'Try again';
     }
   }
+  function openFestivalVideo(videoId) {
+    overlay.hidden = false;
+    document.body.classList.add('player-open');
+    setVideoStatus('loading');
+    releaseVideoSource();
+    player.src = 'assets/videos/'+videoId+'.mp4';
+    player.load();
+    player.addEventListener('loadedmetadata', function onFestReady() {
+      setVideoStatus('ready');
+      var playback = player.play();
+      if (playback && typeof playback.then === 'function') {
+        playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
+      }
+    }, {once:true});
+    player.addEventListener('error', function onFestError() {
+      setVideoStatus('error');
+    }, {once:true});
+  }
   function loadVideo(ep, token) {
     setVideoStatus('loading');
     releaseVideoSource();
@@ -1177,6 +1196,10 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
     if (button) speakDua(button);
     var fav = ev.target.closest('[data-favorite-key]');
     if (fav) toggleFavorite(fav.getAttribute('data-favorite-key'),fav.getAttribute('data-favorite-label'));
+  });
+  document.getElementById('festivalGrid').addEventListener('click', function(ev){
+    var btn = ev.target.closest('[data-festival-video]');
+    if (btn) openFestivalVideo(btn.getAttribute('data-festival-video'));
   });
   document.getElementById('closePlayer').addEventListener('click', closePlayer);
   videoStart.addEventListener('click', function(){
