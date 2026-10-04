@@ -684,10 +684,6 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
   var lang = 'zh';
   var audioLang = 'zh';
   var audioLangChosen = false;
-  try {
-    var savedAudioLang = localStorage.getItem('kidsstories_audio_lang');
-    if (savedAudioLang === 'en' || savedAudioLang === 'zh') { audioLang = savedAudioLang; audioLangChosen = true; }
-  } catch (err) {}
   var currentIndex = 0;
   var grid = document.getElementById('episodeGrid');
   var featuredGrid = document.getElementById('featuredGrid');
@@ -1139,6 +1135,8 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
     currentIndex = index; lastFocus = trigger || document.activeElement;
     var ep = list[index];
     videoLoadToken += 1;
+    audioLang = 'zh';
+    audioLangChosen = false;
     releaseVideoSource();
     player.poster = 'assets/thumbs/'+ep.id+'.jpg';
     englishAudio.src = 'assets/dub_en/'+ep.id+'_en.m4a?v=20260929-en';
@@ -1219,7 +1217,6 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "小羊", "en": "Th
     if(!button)return;
     audioLang=button.getAttribute('data-audio-lang')==='en'?'en':'zh';
     audioLangChosen=true;
-    try{localStorage.setItem('kidsstories_audio_lang',audioLang);}catch(err){}
     setPlaybackLanguage(audioLang,!player.paused);
   });
   player.addEventListener('playing', function(){
