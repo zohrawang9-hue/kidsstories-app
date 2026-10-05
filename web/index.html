@@ -169,7 +169,7 @@
       background:var(--surface); text-align:left; cursor:pointer; box-shadow:0 6px 19px rgba(27,48,54,.06);
     }
     .episode-card:hover { border-color:color-mix(in srgb,var(--gold) 55%,var(--line)); background:var(--surface-strong); }
-    .episode-card img { width:104px; aspect-ratio:9/12; height:116px; object-fit:cover; object-position:50% 22%; border-radius:6px 15px 6px 6px; }
+    .episode-card img { width:104px; height:116px; object-fit:cover; object-position:50% 22%; border-radius:6px 15px 6px 6px; flex-shrink:0; }
     .ep-num { color:var(--gold); font-size:12px; font-weight:700; margin-bottom:5px; }
     .episode-card h3 { margin:0 0 7px; font:700 19px/1.35 "Noto Serif SC",serif; }
     .episode-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
@@ -387,7 +387,7 @@
       .feature-card img { object-position:50% 27%; }
       .library-grid { grid-template-columns:1fr; }
       .episode-card { grid-template-columns:82px 1fr auto; gap:12px; padding:8px; }
-      .episode-card img { width:82px;height:94px; }
+      .episode-card img { width:82px; height:94px; object-fit:cover; flex-shrink:0; }
       .episode-card h3 { font-size:17px; }
       .about-wrap { grid-template-columns:1fr; padding-top:18px; }
       .about-panel { min-height:280px; }
