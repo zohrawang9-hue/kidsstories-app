@@ -787,7 +787,7 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "迷路的小羊", 
     var voiceLang = code === 'ar' ? 'ar-SA' : (code === 'zh' ? 'zh-CN' : 'en-US');
     var utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = voiceLang;
-    utterance.rate = code === 'ar' ? .82 : .9;
+    utterance.rate = code === 'ar' ? .68 : .75;
     var voices = window.speechSynthesis.getVoices();
     var prefix = voiceLang.slice(0,2).toLowerCase();
     var matchingVoice = voices.filter(function(voice){ return voice.lang.toLowerCase().slice(0,2) === prefix; })[0];
@@ -963,7 +963,7 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "迷路的小羊", 
   }
   function speakText(text,voiceLang,button,fallbackText) {
     if(!('speechSynthesis' in window)){showToast(lang==='zh'?'此设备暂不支持听读。':'Read aloud is not supported on this device.');return;}
-    stopSpeech(); var utterance=new SpeechSynthesisUtterance(text); utterance.lang=voiceLang; utterance.rate=voiceLang.indexOf('ar')===0?.78:.88;
+    stopSpeech(); var utterance=new SpeechSynthesisUtterance(text); utterance.lang=voiceLang; utterance.rate=voiceLang.indexOf('ar')===0?.65:.72;
     var voices=window.speechSynthesis.getVoices(),prefix=voiceLang.slice(0,2).toLowerCase(),match=voices.filter(function(v){return v.lang.toLowerCase().slice(0,2)===prefix;})[0];if(match)utterance.voice=match;
     if(button){activeSpeechButton=button;button.setAttribute('data-reset-label',button.querySelector('span')?button.querySelector('span').textContent:copy[lang].listen);button.setAttribute('aria-pressed','true');var span=button.querySelector('span');if(span)span.textContent=copy[lang].stopReading;}
     utterance.onend=stopSpeech;utterance.onerror=function(){stopSpeech();if(fallbackText&&fallbackText!==text){speakText(fallbackText,'en-US',button);return;}showToast(lang==='zh'?'这次朗读没有成功，请再试一次。':'Read aloud could not start.');};window.speechSynthesis.speak(utterance);
