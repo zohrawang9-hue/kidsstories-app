@@ -35,6 +35,15 @@ workflows:
       - name: Sync Capacitor iOS project
         script: |
           npx cap sync ios
+      - name: Verify web bundle synced to iOS
+        script: |
+          # 防止"改了web/但iOS壳里还是旧文件"（曾导致iPad绿屏/黑屏修了却没生效）
+          diff -q web/index.html ios/App/App/public/index.html \
+            && echo "OK: ios/App/App/public/index.html matches web/index.html" \
+            || { echo "ERROR: web bundle NOT synced to ios/App/App/public/"; exit 1; }
+          grep -q 'content="light"' ios/App/App/public/index.html \
+            && echo "OK: dark-mode meta removed in synced bundle" \
+            || { echo "ERROR: dark-mode meta still present in synced bundle"; exit 1; }
       - name: Fetch signing files
         script: |
           keychain initialize

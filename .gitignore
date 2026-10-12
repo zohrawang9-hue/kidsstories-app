@@ -4,3 +4,5 @@ node_modules/
 
 .secrets/
 video-backup-dual-audio/
+# Capacitor sync 生成的 iOS 网页包（由 codemagic.yaml 的验证步骤从 web/ 重新生成，不提交）
+ios/App/App/public/

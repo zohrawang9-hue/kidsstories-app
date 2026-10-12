@@ -7,8 +7,8 @@ const config: CapacitorConfig = {
   appName: '圣人故事儿童集',
   // 打进原生壳的网页包目录（见 web/README.md）
   webDir: 'web',
-  // 启动屏/状态栏底色：品牌深绿
-  backgroundColor: '#0B5E36',
+  // 启动屏/状态栏底色：浅色纸面（与网页 --paper 一致；深绿底在WebView加载失败时会透出造成"绿屏"）
+  backgroundColor: '#f6fbf4',
   ios: {
     // 允许网页里 <video> 内联播放（不要强制全屏）
     allowsInlineMediaPlayback: true,
