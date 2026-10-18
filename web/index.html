@@ -847,7 +847,7 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "迷路的小羊", 
       var index = episodes.indexOf(ep);
       var title = lang === 'zh' ? ep.zh : ep.en;
       return '<button class="feature-card" type="button" data-index="'+index+'" aria-label="'+copy[lang].play+' '+title+'">'+
-        '<img src="assets/thumbs/'+ep.id+'.jpg" alt="'+title+' '+(lang==='zh'?'故事画面':'story scene')+'">'+
+        '<img src="assets/thumbs/'+ep.id+'.jpg" alt="'+title+' '+(lang==='zh'?'故事画面':'story scene')+'" loading="lazy">'+
         '<span class="card-copy"><small>'+copy[lang].trilogy+' · '+eLabel(ep.episode)+'</small><strong>'+title+'</strong></span></button>';
     }).join('');
     Array.prototype.forEach.call(document.querySelectorAll('[data-index]'), function(btn) {
@@ -1106,23 +1106,46 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "迷路的小羊", 
     document.body.classList.add('player-open');
     setVideoStatus('loading');
     releaseVideoSource();
-    player.src = 'assets/videos/'+videoId+'.mp4';
-    player.load();
-    player.addEventListener('loadedmetadata', function onFestReady() {
+    var videoUrl = 'assets/videos/'+videoId+'.mp4';
+    var triedBlobFallback = false;
+    function onFestReady() {
       setVideoStatus('ready');
       var playback = player.play();
       if (playback && typeof playback.then === 'function') {
         playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
       }
-    }, {once:true});
-    player.addEventListener('error', function onFestError() {
+    }
+    function onFestError() {
+      if (!triedBlobFallback) {
+        triedBlobFallback = true;
+        setVideoStatus('loading');
+        fetch(videoUrl).then(function(resp){
+          if (!resp.ok) throw new Error('fetch failed '+resp.status);
+          return resp.blob();
+        }).then(function(blob){
+          if (overlay.hidden) return;
+          releaseVideoSource();
+          videoObjectUrl = URL.createObjectURL(blob);
+          player.addEventListener('loadedmetadata', onFestReady, {once:true});
+          player.addEventListener('error', onFestError, {once:true});
+          player.src = videoObjectUrl;
+          player.load();
+        }).catch(function(){ setVideoStatus('error'); });
+        return;
+      }
       setVideoStatus('error');
-    }, {once:true});
+    }
+    player.src = videoUrl;
+    player.load();
+    player.addEventListener('loadedmetadata', onFestReady, {once:true});
+    player.addEventListener('error', onFestError, {once:true});
   }
   function loadVideo(ep, token) {
     setVideoStatus('loading');
     releaseVideoSource();
-    player.addEventListener('loadedmetadata', function onVideoReady() {
+    var videoUrl = 'assets/videos/'+ep.id+'.mp4';
+    var triedBlobFallback = false;
+    function onVideoReady() {
       if (token !== videoLoadToken || overlay.hidden) return;
       setPlaybackLanguage(audioLang,false);
       setVideoStatus('ready');
@@ -1130,11 +1153,35 @@ var hadithEpisodes = [{"episode": 1, "id": "hadith01", "zh": "迷路的小羊", 
       if (playback && typeof playback.then === 'function') {
         playback.then(function(){ videoStatus.hidden = true; }).catch(function(){ setVideoStatus('ready'); });
       }
-    }, {once:true});
-    player.addEventListener('error', function onVideoError() {
-      if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
-    }, {once:true});
-    player.src = 'assets/videos/'+ep.id+'.mp4';
+    }
+    function onVideoError() {
+      if (token !== videoLoadToken || overlay.hidden) return;
+      if (!triedBlobFallback) {
+        // 某些设备（如审核员的 iPad）上 <video> 直接加载本地文件会失败，
+        // 改用 fetch 取成 blob 再播，绕开媒体栈对本地 scheme 的处理。
+        triedBlobFallback = true;
+        setVideoStatus('loading');
+        fetch(videoUrl).then(function(resp){
+          if (!resp.ok) throw new Error('fetch failed '+resp.status);
+          return resp.blob();
+        }).then(function(blob){
+          if (token !== videoLoadToken || overlay.hidden) return;
+          releaseVideoSource();
+          videoObjectUrl = URL.createObjectURL(blob);
+          player.addEventListener('loadedmetadata', onVideoReady, {once:true});
+          player.addEventListener('error', onVideoError, {once:true});
+          player.src = videoObjectUrl;
+          player.load();
+        }).catch(function(){
+          if (token === videoLoadToken && !overlay.hidden) setVideoStatus('error');
+        });
+        return;
+      }
+      setVideoStatus('error');
+    }
+    player.addEventListener('loadedmetadata', onVideoReady, {once:true});
+    player.addEventListener('error', onVideoError, {once:true});
+    player.src = videoUrl;
     player.load();
   }
   function openPlayer(index, trigger, category) {
