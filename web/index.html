@@ -60,8 +60,7 @@
       gap: 16px;
       padding: max(14px, env(safe-area-inset-top)) clamp(18px, 4vw, 48px) 14px;
       border-bottom: 1px solid var(--line);
-      background: color-mix(in srgb, var(--paper) 90%, transparent);
-      backdrop-filter: blur(18px);
+      background: var(--paper);
     }
     .brandline { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .crescent {
@@ -324,7 +323,7 @@
       position:fixed; z-index:30; left:50%; bottom:max(12px,env(safe-area-inset-bottom)); transform:translateX(-50%);
       width:min(680px,calc(100% - 28px)); display:grid;grid-template-columns:repeat(5,1fr);
       padding:6px; border:1px solid rgba(255,255,255,.12); border-radius:20px;
-      background:rgba(9,76,55,.96); box-shadow:0 14px 38px rgba(0,0,0,.28); backdrop-filter:blur(18px);
+      background:rgba(9,76,55,1); box-shadow:0 14px 38px rgba(0,0,0,.28);
     }
     .nav-btn { display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:14px;background:transparent;color:#c5d8d4;padding:11px 10px;font-weight:700;cursor:pointer; }
     .nav-btn svg { width:19px;height:19px; }
